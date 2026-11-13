@@ -1,0 +1,11 @@
+{
+  "name": "pld-itapitanga",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PLD — Plenário Legislativo Digital · Câmara Municipal de Itapitanga-BA (site estático com Supabase)",
+  "author": "André Almeida",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "node scripts/montar.js"
+  }
+}

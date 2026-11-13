@@ -1,0 +1,1907 @@
+<!doctype html>
+<!-- PLD — CÂMARA MUNICIPAL DE ITAPITANGA-BA (réplica separada; NÃO é o sistema de Almadina / repositório legislar) -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+    <script src="js/tv-compat.js"></script>
+    <script src="js/login-guard.js"></script>
+    <script src="js/capa-tablet.js?v=3" data-sempre="1"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1022">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Votação Plenária — Câmara Municipal de Itapitanga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: uma barra institucional + três telas (Mesa/Operador, Tablet do Vereador, Telão) com o mesmo vocabulário de cores de voto */
+:root{
+  --bg:#eef0f5; --surface:#ffffff; --sunk:#e3e7ef; --ink:#121a2c; --muted:#59627a; --line:#d4d9e4;
+  --navy:#1b2c57; --brass:#9b7019; --brass-soft:#f3e7cb;
+  --sim:#1c8448; --sim-soft:#dcf1e4; --nao:#bb3326; --nao-soft:#f8dfdb; --abs:#b87b0c; --abs-soft:#f6ead0;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1120; --surface:#151c2f; --sunk:#10172a; --ink:#e7eaf2; --muted:#9aa3b8; --line:#273149;
+  --navy:#9bb1e8; --brass:#d8a845; --brass-soft:#3a2f17;
+  --sim:#3cc277; --sim-soft:#173726; --nao:#ee6453; --nao-soft:#3e1d1a; --abs:#e7ad3c; --abs-soft:#3b2e14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1120; --surface:#151c2f; --sunk:#10172a; --ink:#e7eaf2; --muted:#9aa3b8; --line:#273149;
+  --navy:#9bb1e8; --brass:#d8a845; --brass-soft:#3a2f17;
+  --sim:#3cc277; --sim-soft:#173726; --nao:#ee6453; --nao-soft:#3e1d1a; --abs:#e7ad3c; --abs-soft:#3b2e14; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* barra */
+.topbar{background:var(--navy);color:#fff}
+:root:not([data-theme="light"]) .topbar{}
+.topbar .wrap{display:flex;align-items:center;gap:14px;padding-block:12px;flex-wrap:wrap}
+.seal{width:38px;height:38px;border-radius:50%;border:2px solid var(--brass);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:var(--brass);background:rgba(255,255,255,.06);flex:none}
+.brand{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.brand small{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.brand b{font-family:var(--f-display);font-size:1.45rem;font-weight:600;letter-spacing:.02em}
+.topbar .sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.12);color:#fff}
+.pill i{width:8px;height:8px;border-radius:50%;background:#9aa3b8}
+.pill.on i{background:#4ade80}.pill.loc i{background:#fbbf24}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topbar{background:#111a33}}
+:root[data-theme="dark"] .topbar{background:#111a33}
+.topbar a,.linkbtn{color:inherit;background:none;border:0;text-decoration:underline;text-underline-offset:3px;font-size:.9rem;padding:4px}
+
+main{padding-block:24px 48px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:2.1rem}
+h2{font-size:1.45rem}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muted{color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.btn{border:1px solid var(--line);background:var(--surface);padding:10px 16px;border-radius:8px;font-weight:600;min-height:44px}
+.btn:hover:not(:disabled){border-color:var(--ink)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--surface)}
+.btn.go{background:var(--sim);border-color:var(--sim);color:#fff}
+.btn.stop{background:var(--nao);border-color:var(--nao);color:#fff}
+.btn.brass{background:var(--brass);border-color:var(--brass);color:#fff}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:.82rem;font-weight:700;color:var(--muted)}
+.field input,.field select{border:1px solid var(--line);background:var(--sunk);border-radius:8px;padding:10px 12px;min-height:44px;width:100%}
+.err{color:var(--nao);font-weight:600;min-height:1.4em;font-size:.92rem}
+
+/* início */
+.hero{display:grid;gap:8px;margin-bottom:22px}
+.hero p{max-width:62ch;margin:0}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.role{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;transition:border-color .15s,transform .15s}
+.role:hover{border-color:var(--brass);transform:translateY(-2px)}
+.role b{font-family:var(--f-display);font-size:1.6rem;font-weight:600}
+.role span{color:var(--muted)}
+.role em{font-style:normal;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:22px}
+.step{border-top:3px solid var(--line);padding-top:10px}
+.step b{display:block;font-family:var(--f-display);font-size:1.15rem}
+.step p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+
+/* login */
+.login{max-width:560px;margin:0 auto}
+.namegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.namebtn{border:1px solid var(--line);background:var(--sunk);border-radius:8px;padding:10px 8px;text-align:left;min-height:56px;display:flex;flex-direction:column;justify-content:center}
+.namebtn small{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.namebtn[aria-pressed="true"]{border-color:var(--brass);background:var(--brass-soft);box-shadow:inset 0 0 0 1px var(--brass)}
+@media (max-width:460px){.namegrid{grid-template-columns:repeat(2,1fr)}}
+
+/* operador */
+.opgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:start}
+@media (max-width:900px){.opgrid{grid-template-columns:1fr}}
+.stage{display:flex;gap:6px;flex-wrap:wrap}
+.stage span{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:99px;background:var(--sunk);color:var(--muted)}
+.stage span.ok{background:var(--sim-soft);color:var(--sim)}
+.stage span.now{background:var(--brass-soft);color:var(--brass)}
+.chamada{display:grid;grid-template-columns:1fr;gap:6px}
+.vrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--sunk)}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;background:var(--surface);border:1px solid var(--line);flex:none;font-size:.95rem}
+.vrow .nm{flex:1;min-width:0;line-height:1.15}
+.vrow .nm small{display:block;font-size:.76rem;color:var(--muted)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin-right:5px;vertical-align:middle}
+.dot.on{background:var(--sim)}
+.faltam{margin:10px 0 4px;padding:10px 12px;border:1px solid var(--brass);border-radius:8px;background:var(--sunk)}
+.faltam small{display:block;margin-top:2px}
+.faltam-lista{display:flex;flex-wrap:wrap;margin-top:6px}
+.faltam-it{display:inline-flex;align-items:center;margin:4px 12px 4px 0;font-weight:600}
+.faltam-it .tog{margin-left:8px;color:var(--nao)}
+.tog{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:.82rem;font-weight:700;background:var(--surface);min-height:36px}
+.tog.on{background:var(--sim);border-color:var(--sim);color:#fff}
+.quorum{display:flex;flex-direction:column;gap:8px}
+.meter{position:relative;height:14px;border-radius:99px;background:var(--sunk);border:1px solid var(--line);overflow:hidden}
+.meter i{position:absolute;top:0;bottom:0;left:0;background:var(--nao);transition:width .3s}
+.meter i.ok{background:var(--sim)}
+.meter b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink)}
+.qtxt{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.92rem}
+.big-num{font-family:var(--f-mono);font-weight:600;font-variant-numeric:tabular-nums}
+.current{border:2px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.current.live{border-color:var(--sim)}
+.current.done{border-color:var(--brass)}
+.mtipo{font-family:var(--f-mono);font-size:.82rem;color:var(--brass);font-weight:600;letter-spacing:.04em}
+.ementa{font-size:1.08rem;margin:0}
+.votedline{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.78rem;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--sunk);color:var(--muted);border:1px solid var(--line)}
+.chip.v{background:var(--sim-soft);color:var(--sim);border-color:transparent}
+.chip.sim{background:var(--sim-soft);color:var(--sim);border-color:transparent}
+.chip.nao{background:var(--nao-soft);color:var(--nao);border-color:transparent}
+.chip.abs{background:var(--abs-soft);color:var(--abs);border-color:transparent}
+.pauta{display:flex;flex-direction:column;gap:6px}
+.pitem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:8px}
+.pitem.sel{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.pitem .n{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);width:2ch;text-align:right}
+.pitem p{margin:0;font-size:.95rem}
+.pitem small{color:var(--muted)}
+.lixo{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin-left:8px;padding:0;background:none;border:1px solid var(--line);border-radius:6px;color:var(--muted);cursor:pointer}
+.lixo:hover{color:#c0392b;border-color:#c0392b}
+.lixo:disabled{opacity:.4;cursor:not-allowed}
+.res{font-family:var(--f-display);font-weight:700;letter-spacing:.04em}
+.res.ap{color:var(--sim)}.res.rp{color:var(--nao)}
+.addform{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.addform .full{grid-column:1/-1}
+@media (max-width:520px){.addform{grid-template-columns:1fr}}
+.oprow{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:16px}
+
+/* vereador */
+.ver{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.verhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.verhead .av{width:52px;height:52px;font-size:1.3rem;background:var(--brass-soft);border-color:var(--brass);color:var(--brass)}
+.verhead .sp{flex:1}
+.status{border-radius:10px;padding:14px 16px;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:10px;background:var(--sunk);border:1px solid var(--line)}
+.status.live{background:var(--sim-soft);color:var(--sim);border-color:transparent}
+.status.lock{background:var(--brass-soft);color:var(--brass);border-color:transparent}
+.matcard{padding:22px}
+.matcard h2{font-size:1.9rem;margin-top:6px}
+.votebtns{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:640px){.votebtns{grid-template-columns:1fr}}
+.vb{border:0;border-radius:14px;padding:26px 16px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;font-family:var(--f-display);font-weight:700;font-size:2.2rem;letter-spacing:.04em;transition:transform .12s,filter .12s}
+.vb small{font-family:var(--f-body);font-size:.95rem;font-weight:600;letter-spacing:0;opacity:.9}
+.vb.sim{background:var(--sim)}.vb.nao{background:var(--nao)}.vb.abs{background:var(--abs)}
+.vb:active:not(:disabled){transform:scale(.97)}
+.vb:disabled{filter:grayscale(1);opacity:.32;cursor:not-allowed}
+@media (max-width:640px){.vb{min-height:96px;flex-direction:row;font-size:1.8rem}}
+.locked{text-align:center;padding:34px 18px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.locked .big{font-family:var(--f-display);font-size:3rem;font-weight:700;line-height:1}
+.lockico{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--brass-soft);color:var(--brass)}
+
+/* modal / toast */
+.modal{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(8,12,24,.62);display:grid;place-items:center;z-index:50;padding:16px}
+.modal .box{background:var(--surface);border-radius:14px;padding:24px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line)}
+.modal .box .big{font-family:var(--f-display);font-size:2.6rem;font-weight:700;line-height:1}
+.modal .row .btn{flex:1;min-height:56px;font-size:1.05rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:10px;font-weight:600;z-index:60;max-width:calc(100% - 32px)}
+
+/* telão — sempre escuro */
+.tv{--bg:#070b16;--surface:#0f1628;--sunk:#0b1120;--ink:#f1f3f8;--muted:#8f99b2;--line:#222c45;--brass:#e0b04f;--brass-soft:#3a2f17;--sim:#34d17c;--sim-soft:#11331f;--nao:#ff5a48;--nao-soft:#3d1713;--abs:#f2b33b;--abs-soft:#3a2b10;
+  background:radial-gradient(1200px 500px at 50% -10%,#18244a 0%,var(--bg) 60%);color:var(--ink);min-height:100vh;color-scheme:dark}
+.tvwrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:20px 28px;display:flex;flex-direction:column;gap:18px;max-width:1800px;margin:0 auto}
+.tvtop{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.tvtop .seal{width:54px;height:54px;font-size:1.3rem}
+.tvtop .brand small{font-size:.85rem}
+.tvtop .brand b{font-size:clamp(1.4rem,2.4vw,2.4rem)}
+.tvtop .sp{flex:1}
+.clock{font-family:var(--f-mono);font-size:clamp(1.3rem,2.2vw,2.2rem);font-weight:600;font-variant-numeric:tabular-nums}
+.tvstate{font-family:var(--f-display);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:clamp(1rem,1.6vw,1.5rem);padding:6px 14px;border-radius:8px;background:var(--sunk);border:1px solid var(--line)}
+.tvstate.live{background:var(--sim);color:#04160c;border-color:var(--sim);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(52,209,124,.12)}}
+.tvmain{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:stretch}
+@media (max-width:980px){.tvmain{grid-template-columns:1fr}}
+.tvmat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,2vw,28px);display:flex;flex-direction:column;gap:10px}
+.tvmat .mtipo{font-size:clamp(.9rem,1.3vw,1.3rem)}
+.tvmat h2{font-size:clamp(1.6rem,3.2vw,3.2rem);line-height:1.08}
+.tvmat .autor{color:var(--muted);font-size:clamp(.95rem,1.3vw,1.3rem)}
+.tvq{display:flex;gap:18px;flex-wrap:wrap;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.tvq div{display:flex;flex-direction:column}
+.tvq small{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.tvq b{font-family:var(--f-mono);font-size:clamp(1.4rem,2.4vw,2.4rem);font-variant-numeric:tabular-nums}
+.tvgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:560px){.tvgrid{grid-template-columns:repeat(2,1fr)}}
+.tvv{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tvv .nm{font-family:var(--f-display);font-weight:600;font-size:clamp(1.05rem,1.6vw,1.6rem);line-height:1.05;overflow-wrap:anywhere}
+.tvv .pres{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:700}
+.tvv .st{font-family:var(--f-display);font-weight:700;letter-spacing:.08em;font-size:clamp(.95rem,1.4vw,1.4rem);padding:4px 10px;border-radius:6px;align-self:flex-start;background:var(--sunk);color:var(--muted)}
+.tvv.aus{opacity:.45}
+.tvv.voted{border-width:2px}
+.tvv.v-sim{border-color:var(--sim);background:linear-gradient(160deg,var(--sim-soft),var(--surface))}
+.tvv.v-nao{border-color:var(--nao);background:linear-gradient(160deg,var(--nao-soft),var(--surface))}
+.tvv.v-abs{border-color:var(--abs);background:linear-gradient(160deg,var(--abs-soft),var(--surface))}
+.tvv.flash{animation:votoNovo 1.4s ease-out}
+@keyframes votoNovo{0%{transform:scale(1.08);box-shadow:0 0 0 10px rgba(255,255,255,.18)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.tvv .st.voted{background:var(--sim);color:#04160c}
+.tvv .st.wait{background:var(--sunk);color:var(--ink)}
+.tvv .st.sim{background:var(--sim);color:#04160c}
+.tvv .st.nao{background:var(--nao);color:#1d0503}
+.tvv .st.abs{background:var(--abs);color:#1d1203}
+.tvres{border-radius:14px;padding:clamp(16px,2.4vw,30px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:center;border:2px solid var(--line);background:var(--surface)}
+@media (max-width:760px){.tvres{grid-template-columns:1fr}}
+.tvres.ap{border-color:var(--sim);background:linear-gradient(120deg,var(--sim-soft),var(--surface))}
+.tvres.rp{border-color:var(--nao);background:linear-gradient(120deg,var(--nao-soft),var(--surface))}
+.verdict{font-family:var(--f-display);font-weight:700;font-size:clamp(3rem,8vw,7.5rem);line-height:.9;letter-spacing:.04em}
+.tvres.ap .verdict{color:var(--sim)}.tvres.rp .verdict{color:var(--nao)}
+.tvres.emp{border-color:var(--brass);background:linear-gradient(120deg,var(--abs-soft),var(--surface))}.tvres.emp .verdict{color:var(--brass)}
+.tvsub{color:var(--brass);font-family:var(--f-display);font-weight:600;font-size:1.6rem;margin-top:6px}
+/* resumo final da pauta no telão */
+.tvsum{flex:1;min-height:0;display:flex;flex-direction:column}
+.tvsum-top{margin-bottom:18px}
+.tvsum-top .mtipo{font-size:1.5rem}
+.tvsum-top h2{font-size:3rem;margin-top:6px}
+.tvsum-lista{flex:1;min-height:0;display:flex;flex-direction:column}
+.tvsum-item{flex:1 1 0;min-height:0;max-height:190px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:30px;padding:10px 30px;border-radius:14px;border:2px solid var(--line);background:var(--surface);overflow:hidden}
+.tvsum-item + .tvsum-item{margin-top:12px}
+.tvsum-item.ap{border-color:var(--sim);background:linear-gradient(120deg,var(--sim-soft),var(--surface) 70%)}
+.tvsum-item.rp{border-color:var(--nao);background:linear-gradient(120deg,var(--nao-soft),var(--surface) 70%)}
+.tvsum-nome{min-width:0;display:flex;flex-direction:column}
+.tvsum-nome b{font-family:var(--f-display);font-weight:700;font-size:2.6rem;line-height:1.1}
+.tvsum-nome span{color:var(--muted);font-size:1.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tvsum-placar{font-family:var(--f-mono);font-size:1.4rem;color:var(--muted);text-align:right;display:flex;flex-direction:column}
+.tvsum-placar em{font-style:normal;color:var(--brass);font-family:var(--f-display);font-size:1.3rem}
+.tvsum-res{font-family:var(--f-display);font-weight:700;font-size:4.6rem;letter-spacing:.05em;line-height:1;min-width:430px;text-align:right}
+.tvsum-item.ap .tvsum-res{color:var(--sim)}.tvsum-item.rp .tvsum-res{color:var(--nao)}
+.tvsum.compact .tvsum-nome span{display:none}
+.tvsum.compact .tvsum-nome b{font-size:2.1rem}
+.tvsum.compact .tvsum-item{padding:4px 26px}
+.tvsum.compact .tvsum-item + .tvsum-item{margin-top:8px}
+.tvsum.compact .tvsum-placar{font-size:1.2rem}
+.tvsum.compact .tvsum-placar em{font-size:1.05rem}
+.tvsum.compact .tvsum-res{font-size:3.1rem;min-width:300px}
+.tvsum.cols .tvsum-lista{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-auto-rows:minmax(0,1fr);grid-gap:8px 16px;gap:8px 16px}
+.tvsum.cols .tvsum-item + .tvsum-item{margin-top:0}
+.tvsum.cols .tvsum-item{max-height:none;padding:4px 18px;column-gap:16px}
+.tvsum.cols .tvsum-nome b{font-size:1.6rem}
+.tvsum.cols .tvsum-placar{font-size:1rem}
+.tvsum.cols .tvsum-res{font-size:2.3rem;min-width:0}
+.tvstate.emp{background:var(--brass);color:#1d1405;border-color:var(--brass)}
+.placar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.placar div{background:var(--sunk);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--line)}
+.placar small{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.placar b{font-family:var(--f-mono);font-size:clamp(2rem,4.4vw,4.4rem);font-variant-numeric:tabular-nums;line-height:1.1}
+.placar .s small,.placar .s b{color:var(--sim)}.placar .n small,.placar .n b{color:var(--nao)}.placar .a small,.placar .a b{color:var(--abs)}
+.splash{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.splash .seal{width:110px;height:110px;font-size:2.6rem;border-width:3px}
+img.seal{border:0;border-radius:0;background:none;object-fit:contain;padding:0}
+.splash img.seal{width:120px;height:120px}
+.splash h2{font-size:clamp(2rem,5vw,4.6rem)}
+.splash p{color:var(--muted);font-size:clamp(1rem,1.8vw,1.6rem);margin:0}
+.tvfoot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.85rem}
+.tvfoot button{background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:4px 10px}
+.banner{background:var(--abs-soft);color:var(--abs);border-radius:8px;padding:10px 14px;font-weight:600;font-size:.92rem}
+/* ===================== TELÃO: tela fixa 1920×1080, ampliada ou reduzida para caber em qualquer Smart TV =====================
+   (720p, 1080p, 4K ou TVs que mostram a página em 960×540: o desenho fica sempre igual e sem rolagem)
+   Espaçamentos com margem/grade (as TVs mais antigas não entendem "gap" em flex). */
+.tv{position:fixed;top:0;right:0;bottom:0;left:0;min-height:0;overflow:hidden;z-index:1}
+.tv .tvwrap{position:absolute;top:0;left:0;width:1920px;height:1080px;max-width:none;margin:0;padding:34px 56px 28px;
+  display:flex;flex-direction:column;gap:0;-webkit-transform-origin:0 0;transform-origin:0 0}
+.tv .tvwrap > * + *{margin-top:22px}
+.tv #tvBody{flex:1;min-height:0;display:flex;flex-direction:column}
+.tv #tvBody > * + *{margin-top:20px}
+.tv .tvtop{flex-wrap:nowrap;gap:0;padding-bottom:18px}
+.tv .tvtop > * + *{margin-left:20px}
+.tv .tvtop .seal{width:78px;height:78px}
+.tv .tvtop .brand small{font-size:1.05rem}
+.tv .tvtop .brand b{font-size:2.7rem}
+.tv .clock{font-size:2.7rem}
+.tv .tvstate{font-size:1.7rem;padding:8px 20px}
+.tv .tvmain{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-gap:20px;gap:20px}
+.tv .tvmat{padding:36px 40px;gap:0;min-height:0;overflow:hidden}
+.tv .tvmat > * + *{margin-top:14px}
+.tv .tvmat > .tvq{margin-top:auto}
+.tv .tvmat .mtipo{font-size:1.5rem}
+.tv .tvmat h2{font-size:3.4rem;line-height:1.1;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.tv .tvres + .tvmain .tvmat h2{font-size:2.7rem;-webkit-line-clamp:3}
+.tv .tvmat .autor{font-size:1.45rem}
+.tv .tvq{gap:0;flex-wrap:nowrap;padding-top:18px}
+.tv .tvq div + div{margin-left:46px}
+.tv .tvq small{font-size:1.05rem}
+.tv .tvq b{font-size:3.4rem;line-height:1.1}
+.tv .tvgrid{min-height:0;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));grid-gap:14px;gap:14px}
+.tv .tvv{padding:16px 20px;gap:0;justify-content:center;min-height:0;overflow:hidden}
+.tv .tvv > * + *{margin-top:12px}
+.tv .tvv .nm{font-size:2.05rem}
+.tv .tvv .pres{font-size:.95rem}
+.tv .tvv .st{font-size:1.65rem;padding:6px 14px}
+.tv .tvres{flex:none;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);grid-gap:30px;gap:30px;padding:26px 40px}
+.tv .tvres .mtipo{font-size:1.4rem}
+.tv .verdict{font-size:8.5rem}
+.tv .placar{grid-gap:14px;gap:14px}
+.tv .placar div{padding:14px}
+.tv .placar small{font-size:1.1rem}
+.tv .placar b{font-size:5rem}
+.tv .splash{flex:1;min-height:0;gap:0}
+.tv .splash > * + *{margin-top:22px}
+.tv .splash img.seal{width:230px;height:230px}
+.tv .splash h2{font-size:5.6rem}
+.tv .splash p{font-size:2.3rem}
+.tv .splash h2.sessenc{font-size:7rem;letter-spacing:.06em;color:var(--brass)}
+.tv .tvfoot{font-size:1.1rem;gap:0;flex-wrap:nowrap}
+.tv .tvfoot .row{gap:0}
+.tv .tvfoot .row > * + *{margin-left:12px}
+.tv .tvfoot button{font-size:1rem;padding:6px 14px}
+.tv .tvfoot{display:none}
+.tv .tvcred{flex:none;position:relative;overflow:hidden;white-space:nowrap;border-top:1px solid var(--line);padding-top:12px;color:var(--brass);font-size:1.25rem;letter-spacing:.02em}
+.tv .tvcred > span{display:inline-block;padding-left:100%;-webkit-animation:vp-cred 90s linear infinite;animation:vp-cred 90s linear infinite}
+@-webkit-keyframes vp-cred{from{-webkit-transform:translateX(0)}to{-webkit-transform:translateX(-100%)}}
+@keyframes vp-cred{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+.tv .tvsair{display:none;position:absolute;right:0;bottom:0;top:12px;padding:0 18px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--muted);font:inherit;font-size:1.05rem;cursor:pointer}
+.tv .tvsair:hover{color:var(--ink);border-color:var(--brass)}
+html.nb .tv .tvsair{display:block}
+.tv .tvcred .pt{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor;vertical-align:middle;margin:0 14px}
+
+/* ===================== TABLETS DOS VEREADORES ===================== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overscroll-behavior-y:contain}                 /* puxar a tela não recarrega a página no meio da votação */
+button,a,.vb,.namebtn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#verBody{display:grid;grid-gap:16px;gap:16px}
+.vb{min-height:150px;min-height:clamp(150px,26vh,280px)}
+@media (max-width:640px){.vb{min-height:110px}}
+/* ===================== VISUAL MODERNO — só nas telas do vereador (nomes e voto) =====================
+   html.vz é ligado quando a tela é "Toque no seu nome" ou a tela de voto; Operador, início e Telão não mudam. */
+html.vz.vz.vz{
+  --bg:#0a1022; --surface:#141d3a; --sunk:#0e1630; --ink:#eef1f8; --muted:#9aa4bf; --line:rgba(255,255,255,.10);
+  --navy:#3a64d8; --brass:#e6b955; --brass-soft:rgba(230,185,85,.14);
+  --sim:#2fcf7f; --sim-soft:rgba(47,207,127,.15); --nao:#ff5d4d; --nao-soft:rgba(255,93,77,.15); --abs:#f4b740; --abs-soft:rgba(244,183,64,.15);
+  --card:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+  --shadow:0 14px 40px rgba(0,0,0,.35);
+  color-scheme:dark}
+html.vz body{background:#0a1022;background:radial-gradient(1100px 620px at 8% -12%,rgba(58,100,216,.32),transparent 62%),radial-gradient(900px 520px at 108% 0%,rgba(230,185,85,.13),transparent 60%),#0a1022;background-attachment:fixed;color:var(--ink)}
+html.vz .topbar{background:rgba(10,16,34,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid rgba(230,185,85,.28);position:sticky;top:0;z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+html.vz .topbar .seal{width:48px;height:48px}
+html.vz .topbar .brand small{color:var(--brass);opacity:1}
+html.vz .topbar .brand b{font-size:1.6rem}
+html.vz .pill{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+html.vz .pill.on i{background:var(--sim);box-shadow:0 0 0 4px rgba(47,207,127,.2)}
+html.vz .eyebrow{color:var(--brass)}
+html.vz .panel{background:var(--card),var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px}
+html.vz .btn{border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--ink);transition:transform .12s,filter .15s,border-color .15s}
+html.vz .btn:active:not(:disabled){transform:scale(.98)}
+html.vz .btn.primary{background:linear-gradient(135deg,#4a76ec,#2a4fb3);border-color:transparent;color:#fff;box-shadow:0 8px 22px rgba(58,100,216,.35)}
+html.vz .btn.go{background:linear-gradient(135deg,#36d987,#1d9e5c);border-color:transparent;color:#04160c}
+html.vz .btn.stop{background:linear-gradient(135deg,#ff6e5f,#d63a2b);border-color:transparent;color:#fff}
+html.vz .btn.brass{background:linear-gradient(135deg,#f2cc72,#c9952f);border-color:transparent;color:#1d1405}
+html.vz .av{background:linear-gradient(135deg,#2a3a6e,#1a2550);border:1px solid rgba(230,185,85,.45);color:var(--brass)}
+html.vz .chip{background:rgba(255,255,255,.06)}
+
+/* "Toque no seu nome" */
+html.vz .login.panel{max-width:760px}
+html.vz .login h1{font-size:2.4rem}
+html.vz .namegrid{grid-template-columns:repeat(3,minmax(0,1fr));grid-gap:12px;gap:12px}
+html.vz .namebtn{flex-direction:row;align-items:center;justify-content:flex-start;min-height:78px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid var(--line);color:var(--ink);transition:transform .12s,border-color .15s,background .15s}
+html.vz .namebtn .av{width:46px;height:46px;font-size:1.1rem;margin-right:12px}
+html.vz .namebtn > span:not(.av){display:flex;flex-direction:column;min-width:0;text-align:left}
+html.vz .namebtn b{font-family:var(--f-display);font-size:1.35rem;font-weight:600;line-height:1.05}
+html.vz .namebtn small{color:var(--muted)}
+html.vz .namebtn:active{transform:scale(.98)}
+html.vz .namebtn:disabled{opacity:.38;cursor:not-allowed;transform:none}
+html.vz .namebtn[aria-pressed="true"]{border-color:var(--brass);background:linear-gradient(135deg,rgba(230,185,85,.24),rgba(230,185,85,.06));box-shadow:0 0 0 3px rgba(230,185,85,.2)}
+html.vz .namebtn[aria-pressed="true"] .av{background:linear-gradient(135deg,#f2cc72,#b98523);color:#1d1405;border:0}
+@media (max-width:620px){html.vz .namegrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* tela de voto */
+html.vz .verhead{background:var(--card),var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 18px;box-shadow:var(--shadow)}
+html.vz .verhead .av{width:62px;height:62px;font-size:1.5rem;background:linear-gradient(135deg,#f2cc72,#b98523);color:#1d1405;border:0}
+html.vz .verhead h1{font-size:2.1rem}
+html.vz .status{border-radius:14px;padding:14px 18px;font-size:1.15rem;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+html.vz .status::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none;margin-right:2px}
+html.vz .status.live{background:var(--sim-soft);color:var(--sim);border-color:rgba(47,207,127,.35)}
+html.vz .status.live::before{background:var(--sim);animation:pulsoV 1.4s ease-in-out infinite}
+html.vz .status.lock{background:var(--brass-soft);color:var(--brass);border-color:rgba(230,185,85,.35)}
+html.vz .status.lock::before{background:var(--brass)}
+@keyframes pulsoV{50%{box-shadow:0 0 0 7px rgba(47,207,127,.18)}}
+html.vz .matcard{position:relative;overflow:hidden;padding:24px 26px 24px 32px}
+html.vz .matcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--brass),#b98523)}
+html.vz .matcard h2{font-size:2rem;line-height:1.15}
+html.vz .vb{border-radius:22px;font-size:2.6rem;letter-spacing:.05em;box-shadow:0 14px 34px rgba(0,0,0,.35);position:relative;overflow:hidden}
+html.vz .vb::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent 45%);pointer-events:none}
+html.vz .vb.sim{background:linear-gradient(145deg,#3ae08f,#17924f);color:#04160c}
+html.vz .vb.nao{background:linear-gradient(145deg,#ff7466,#c8301f);color:#fff}
+html.vz .vb.abs{background:linear-gradient(145deg,#f8c75a,#c98a12);color:#1d1203}
+html.vz .vb .vi{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.24);margin-bottom:6px}
+html.vz .vb .vi svg{width:36px;height:36px}
+html.vz .vb small{font-size:1rem}
+html.vz .vb:disabled{filter:grayscale(1) brightness(.6);opacity:.35}
+html.vz .locked .big{font-size:3.6rem}
+html.vz .lockico{width:68px;height:68px}
+html.vz .modal{background:rgba(5,9,20,.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+html.vz .modal .box{background:var(--card),var(--surface);border:1px solid rgba(230,185,85,.3);border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.5);padding:28px;max-width:520px}
+html.vz .modal .box .big{font-size:3.4rem}
+html.vz .toast{background:#eef1f8;color:#0a1022;border-radius:14px}
+@media (max-width:640px){html.vz .vb{flex-direction:column}}
+
+/* ---------- TABLET: tela cheia, botões de voto ocupando o resto da tela ---------- */
+html.tablet.vz .topbar .wrap{padding-block:8px}
+html.tablet #v-vereador:not([hidden]){min-height:calc(100vh - 66px);min-height:calc(100dvh - 66px);display:flex;flex-direction:column;padding-block:16px 18px}
+html.tablet #v-vereador .ver{flex:1;width:100%;max-width:1200px}
+html.tablet #verBody{flex:1;grid-template-rows:auto minmax(0,1fr)}
+html.tablet #verBody > .votebtns:only-child{grid-row:1/-1}
+html.tablet .votebtns{min-height:0}
+html.tablet .votebtns{align-self:start;align-items:start}
+html.tablet .vb{min-height:0;height:170px;height:clamp(140px,22vh,190px);font-size:2.1rem;padding:16px}
+html.tablet.vz .vb .vi{width:50px;height:50px;margin-bottom:2px}
+html.tablet.vz .vb .vi svg{width:28px;height:28px}
+.votebtns.minerva{grid-template-columns:repeat(2,1fr)}
+html.tablet #v-ver-login:not([hidden]){min-height:calc(100vh - 66px);min-height:calc(100dvh - 66px);display:flex;align-items:center;justify-content:center;padding-block:18px}
+html.tablet #v-ver-login .login{width:100%}
+html.tablet #verLoginForm .btn.primary{min-height:64px!important;font-size:1.3rem}
+@media (max-width:640px){html.tablet .vb{height:110px}}
+.ensaio-bar{background:repeating-linear-gradient(135deg,#e6b955 0 18px,#d6a640 18px 36px);color:#1d1405;font-weight:800;text-align:center;padding:8px 14px;font-size:.95rem;letter-spacing:.02em;position:relative;z-index:30}
+.ensaio-chave{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px dashed var(--brass);border-radius:10px;background:var(--brass-soft);cursor:pointer}
+.ensaio-chave input{width:22px;height:22px;margin-top:2px;accent-color:#c9952f;flex:none}
+.ensaio-chave span{display:flex;flex-direction:column}
+.ensaio-chave small{color:var(--muted);font-size:.82rem}
+/* fotos dos vereadores */
+.av{position:relative;overflow:hidden}
+.av .avfoto{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.vrow .av{width:42px;height:42px}
+.tv .tvv{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:16px;align-content:center;align-items:center}
+.tv .tvv > *{margin-top:0}
+.tv .tvv .tvfoto{width:74px;height:74px;font-size:1.4rem;border:3px solid var(--line);background:#1a2550;color:var(--brass)}
+.tv .tvv.v-sim .tvfoto{border-color:var(--sim)}.tv .tvv.v-nao .tvfoto{border-color:var(--nao)}.tv .tvv.v-abs .tvfoto{border-color:var(--abs)}
+.tv .tvv .tvnm{display:flex;flex-direction:column;min-width:0}
+.tv .tvv .nm{font-size:1.75rem;overflow-wrap:normal;word-break:normal;hyphens:none}
+.tv .tvv .nm{font-size:1.38rem;overflow-wrap:normal;word-break:normal}   /* Itapitanga: sobrenomes longos cabem inteiros no telão */
+.tv .tvv .tvfoto{width:62px;height:62px;font-size:1.2rem}
+.tv .tvv{column-gap:12px;padding:14px 16px}
+.tv .tvv .pres{margin-bottom:4px}
+.tv .tvv .st{grid-column:1 / -1;margin-top:12px;justify-self:start;font-size:1.5rem;white-space:nowrap}
+.tv .tvv.aus .tvfoto{filter:grayscale(1)}
+.btn-tela{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:.85rem;margin-right:8px}
+.btn-tela[hidden]{display:none}
+html.sessao-real #btnTela{display:none!important}  /* sessão real: o vereador não sai da tela cheia */
+.btn-tela:active{transform:scale(.97)}
+@media (max-width:520px){.btn-tela span{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* botão "Selecionar Pauta": pisca em dourado para chamar a atenção do operador */
+.btn.selpauta{background:var(--brass);border-color:var(--brass);color:#fff;font-weight:800;letter-spacing:.02em;white-space:nowrap;animation:selPisca 1.1s ease-in-out infinite!important}
+.btn.selpauta:hover:not(:disabled){filter:brightness(1.12);border-color:var(--brass)}
+.btn.selpauta:disabled{background:var(--surface);border-color:var(--line);color:inherit;animation:none!important;box-shadow:none}
+/* pauta já selecionada: botão fixo em amarelo ouro, para o operador saber qual está ativa */
+.btn.selpauta.ativa,.btn.selpauta.ativa:disabled{background:#FFC107;border-color:#E0A800;color:#1b2c57;opacity:1;cursor:default;animation:none!important;box-shadow:0 0 4px rgba(255,214,10,.9),0 0 12px rgba(255,214,10,.45),inset 0 0 6px rgba(255,255,255,.35);filter:none}
+@keyframes selPisca{0%,100%{box-shadow:0 0 0 0 rgba(216,168,69,.85);filter:brightness(1)}50%{box-shadow:0 0 0 7px rgba(216,168,69,0),0 0 16px 3px rgba(216,168,69,.75);filter:brightness(1.28)}}
+/* mensagens e arquivos para todas as telas */
+.field textarea{border:1px solid var(--line);background:var(--sunk);border-radius:8px;padding:10px 12px;min-height:84px;width:100%;resize:vertical;font:inherit;color:inherit}
+.msgitem{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--sunk)}
+.msgitem p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.msgitem small{color:var(--muted)}
+.msgarq{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.msgarq span{flex:1;min-width:0;overflow-wrap:anywhere}
+.msglist{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow:auto}
+/* sem internet */
+.pill.off i{background:#f87171}
+.offbanner{background:#7a1d14;color:#fff;font-weight:600;padding:10px 16px;text-align:center;font-size:.95rem;line-height:1.35}
+.offbanner[hidden],.tvoff[hidden]{display:none}
+.tvoff{display:inline-block;margin-right:16px;padding:6px 14px;border-radius:99px;background:rgba(248,113,113,.18);color:#fca5a5;font-weight:700;font-size:1.1rem;letter-spacing:.04em}
+
+/* Traço azul animado (mesmo movimento do painel principal): respira e um brilho passa por ele */
+.traco{display:block;height:4px;width:40px;border-radius:3px;margin:5px 0 1px;background-color:#90cdf4;
+  background-image:-webkit-linear-gradient(left,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.85) 50%,rgba(255,255,255,0) 65%,rgba(255,255,255,0) 100%);
+  background-image:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.85) 50%,rgba(255,255,255,0) 65%,rgba(255,255,255,0) 100%);
+  background-size:250% 100%;background-repeat:no-repeat;box-shadow:0 0 8px rgba(144,205,244,.45);
+  -webkit-animation:tracoResp 4s ease-in-out infinite,tracoBrilho 2.6s linear infinite;animation:tracoResp 4s ease-in-out infinite,tracoBrilho 2.6s linear infinite}
+@-webkit-keyframes tracoResp{0%,100%{width:40px}50%{width:90px}}
+@keyframes tracoResp{0%,100%{width:40px}50%{width:90px}}
+@-webkit-keyframes tracoBrilho{0%{background-position:130% 0}100%{background-position:-30% 0}}
+@keyframes tracoBrilho{0%{background-position:130% 0}100%{background-position:-30% 0}}
+/* Telão (Smart TV): traço maior, proporcional à tela de 1920×1080 */
+.traco-tv{height:7px;width:70px;margin-top:8px;border-radius:4px;box-shadow:0 0 14px rgba(144,205,244,.5);-webkit-animation-name:tracoRespTV,tracoBrilho;animation-name:tracoRespTV,tracoBrilho}
+@-webkit-keyframes tracoRespTV{0%,100%{width:70px}50%{width:160px}}
+@keyframes tracoRespTV{0%,100%{width:70px}50%{width:160px}}
+/* Sessão encerrada (telão): traço central, maior */
+.traco-enc{height:8px;margin:0 auto;-webkit-animation-name:tracoRespEnc,tracoBrilho;animation-name:tracoRespEnc,tracoBrilho}
+@-webkit-keyframes tracoRespEnc{0%,100%{width:120px}50%{width:320px}}
+@keyframes tracoRespEnc{0%,100%{width:120px}50%{width:320px}}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <header class="topbar" id="topbar">
+    <div class="wrap">
+      <img class="seal" src="img/brasao.png" alt="Câmara Municipal de Itapitanga">
+      <div class="brand"><small>Câmara Municipal de Itapitanga</small><b>Votação Plenária</b><i class="traco" aria-hidden="true"></i></div>
+      <div class="sp"></div>
+      <button type="button" class="btn-tela" id="btnInstalar" hidden aria-label="Instalar como aplicativo (tela cheia sempre)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Instalar app</span></button>
+      <button type="button" class="btn-tela" id="btnTela" hidden aria-label="Sair da tela cheia"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg><span>Sair da tela cheia</span></button>
+      <span class="pill" id="modePill"><i></i><span>Conectando</span></span>
+      <a href="#inicio" id="homeLink">Início</a>
+    </div>
+  </header>
+  <div class="offbanner" id="offBanner" role="status" hidden></div>
+
+  <!-- INÍCIO -->
+  <main class="wrap" id="v-inicio" hidden>
+    <div class="hero">
+      <span class="eyebrow">Câmara Municipal de Itapitanga</span>
+      <h1>Escolha como este aparelho vai participar</h1>
+      <p class="muted">Abra esta mesma página no computador da Mesa, em cada tablet dos vereadores e na Smart TV. Tudo se atualiza ao mesmo tempo.</p>
+    </div>
+    <div class="roles">
+      <button class="role" data-go="operador"><em>Computador da Mesa</em><b>Operador</b><span>Abre a sessão, faz a chamada, libera a pauta e encerra a votação.</span></button>
+      <button class="role" data-go="vereador"><em>Tablet</em><b>Vereador</b><span>Entra com o nome e vota Aprovar, Reprovar ou Abster quando a votação for liberada.</span></button>
+      <button class="role" data-go="telao"><em>Smart TV</em><b>Telão</b><span>Mostra quórum, quem já votou e o resultado final para o plenário.</span></button>
+    </div>
+    <div class="steps">
+      <div class="step"><b>Abertura e quórum</b><p>A Mesa abre a sessão e faz a chamada. Só com maioria absoluta (5 de 9) a votação pode começar.</p></div>
+      <div class="step"><b>Liberação da pauta</b><p>O operador escolhe a matéria e clica em Iniciar votação. Os botões aparecem nos tablets.</p></div>
+      <div class="step"><b>Registro único</b><p>Cada voto fica gravado com o vereador e a matéria. O tablet trava e o telão mostra VOTOU.</p></div>
+      <div class="step"><b>Encerramento e placar</b><p>O operador encerra. O sistema soma os votos e o telão exibe APROVADO ou REPROVADO.</p></div>
+    </div>
+  </main>
+
+  <!-- LOGIN OPERADOR -->
+  <main class="wrap" id="v-op-login" hidden>
+    <form class="panel login stack" id="opLoginForm" autocomplete="off">
+      <span class="eyebrow">Mesa Diretora</span>
+      <h1>Acesso do operador</h1>
+      <div class="field"><label for="opUser">Usuário</label><input id="opUser" value="operador" autocomplete="off"></div>
+      <div class="field"><label for="opPass">Senha</label><input id="opPass" type="password" autocomplete="off"></div>
+      <div class="err" id="opErr"></div>
+      <button class="btn primary" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <!-- OPERADOR -->
+  <main class="wrap" id="v-operador" hidden>
+    <div class="oprow">
+      <div class="stack" style="gap:6px">
+        <span class="eyebrow">Painel da Mesa</span>
+        <div class="stage" id="opStage"></div>
+      </div>
+      <div class="row">
+        <button class="btn" id="opLogout">Sair</button>
+      </div>
+    </div>
+    <div class="banner" id="localBanner" hidden>Modo local: o Firebase ainda não foi configurado neste arquivo. A sincronização funciona só entre abas deste navegador.</div>
+    <div class="opgrid" style="margin-top:12px">
+      <section class="panel stack">
+        <div class="row" style="justify-content:space-between"><h2>Sessão e quórum</h2><span class="chip" id="sessChip">Fechada</span></div>
+        <div class="row">
+          <button class="btn primary" id="btnAbrir">Abrir votação</button>
+          <button class="btn brass" id="btnChamada" title="Marca como presentes só os vereadores que já entraram no tablet">Fazer chamada</button>
+        </div>
+        <div class="quorum">
+          <div class="meter" aria-hidden="true"><i id="qBar"></i><b id="qMark"></b></div>
+          <div class="qtxt"><span><span class="big-num" id="qPres">0</span> de 9 presentes</span><span id="qMsg" class="muted">Mínimo: 5 (maioria absoluta)</span></div>
+        </div>
+        <div class="field"><label for="selPres">Presidente da Mesa</label><select id="selPres"></select></div>
+        <label class="ensaio-chave"><input type="checkbox" id="chkEnsaio"><span><b>Modo de ensaio</b><small>Ligado: qualquer nome entra em qualquer tablet (para testar). Desligue antes da sessão real.</small></span></label>
+        <div class="chamada" id="chamadaList"></div>
+        <button class="btn stop" id="btnFecharSessao">Encerrar sessão</button>
+      </section>
+
+      <section class="stack">
+        <div class="panel stack">
+          <h2>Votação</h2>
+          <div id="opCurrent"></div>
+        </div>
+        <div class="panel stack">
+          <div class="row" style="justify-content:space-between"><h2>Pauta</h2><span class="muted" id="pautaCount"></span></div>
+          <div class="pauta" id="pautaList"></div>
+          <form class="addform" id="addForm" autocomplete="off">
+            <div class="field"><label for="fTipo">Tipo</label><select id="fTipo"><option>Projeto de Lei</option><option>Requerimento</option><option>Indicação</option><option>Moção</option><option>Projeto de Resolução</option><option>Projeto de Decreto Legislativo</option></select></div>
+            <div class="field"><label for="fNum">Número</label><input id="fNum" placeholder="012/2026"></div>
+            <div class="field full"><label for="fEmenta">Ementa</label><input id="fEmenta" placeholder="Dispõe sobre…"></div>
+            <div class="field full"><label for="fAutor">Autor</label><input id="fAutor" placeholder="Vereador(a) ou Poder Executivo"></div>
+            <div class="full"><button class="btn primary" type="submit">Adicionar à pauta</button></div>
+          </form>
+        </div>
+        <div class="panel stack">
+          <h2>Enviar para todos</h2>
+          <p class="muted" style="margin:0">A mensagem ou o arquivo chega na hora em todos os computadores e tablets. Não aparece na Smart TV.</p>
+          <form class="stack" id="msgForm" autocomplete="off">
+            <div class="field"><label for="msgTexto">Mensagem</label><textarea id="msgTexto" placeholder="Escreva a mensagem (opcional se anexar arquivo)"></textarea></div>
+            <div class="row">
+              <input type="file" id="msgArquivo" hidden>
+              <button class="btn" type="button" id="msgArqBtn">Anexar arquivo</button>
+              <span class="muted" id="msgArqNome">Nenhum arquivo (opcional). Até 10 MB.</span>
+              <button class="linkbtn" type="button" id="msgArqTirar" hidden>Tirar</button>
+            </div>
+            <div class="row"><button class="btn primary" type="submit" id="msgEnviar">Enviar para todos</button><span class="muted" id="msgProg"></span></div>
+          </form>
+          <div class="msglist" id="msgLista"></div>
+        </div>
+        <div class="panel stack">
+          <h2>Relatório para a ata</h2>
+          <p class="muted" style="margin:0">Gera o relatório das matérias votadas no dia, com o placar e o voto de cada vereador. Na janela que abrir, escolha <b>Salvar como PDF</b> ou imprima.</p>
+          <div class="row">
+            <div class="field" style="flex:1;min-width:160px"><label for="relData">Data da sessão</label><input type="date" id="relData"></div>
+            <button class="btn brass" type="button" id="btnRelatorio" style="align-self:flex-end">Gerar relatório (PDF)</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- LOGIN VEREADOR -->
+  <main class="wrap" id="v-ver-login" hidden>
+    <form class="panel login stack" id="verLoginForm" autocomplete="off">
+      <span class="eyebrow">Tablet do vereador</span>
+      <h1>Toque no seu nome</h1>
+      <div class="namegrid" id="nameGrid"></div>
+      <div class="err" id="verErr"></div>
+      <button class="btn primary" type="submit" style="min-height:52px">Entrar</button>
+    </form>
+  </main>
+
+  <!-- VEREADOR -->
+  <main class="wrap" id="v-vereador" hidden>
+    <div class="ver">
+      <div class="verhead">
+        <div class="av" id="verAv"></div>
+        <div><span class="eyebrow" id="verRole">Vereador</span><h1 id="verName" style="font-size:1.8rem"></h1></div>
+        <div class="sp"></div>
+        <button class="btn" id="verLogout">Sair</button>
+      </div>
+      <div class="status" id="verStatus"></div>
+      <div id="verBody"></div>
+    </div>
+  </main>
+
+  <!-- TELÃO -->
+  <div class="tv" id="v-telao" hidden>
+    <div class="tvwrap">
+      <div class="tvtop">
+        <img class="seal" src="img/brasao.png" alt="Câmara Municipal de Itapitanga">
+        <div class="brand"><small>Câmara Municipal de Itapitanga · Estado da Bahia</small><b>Votação Plenária</b><i class="traco traco-tv" aria-hidden="true"></i></div>
+        <div class="sp"></div>
+        <span class="tvoff" id="tvOff" hidden>Reconectando…</span>
+        <span class="tvstate" id="tvState">Sessão fechada</span>
+        <span class="clock" id="tvClock">--:--</span>
+      </div>
+      <div id="tvBody"></div>
+      <div class="tvfoot"><span id="tvFootL"></span><span class="row"><button id="tvFull">Tela cheia</button><a href="#inicio" style="color:inherit">Sair</a></span></div>
+      <div class="tvcred"><span>&copy; Todos os direitos reservados a André Almeida — Desenvolvedor do Sistema (PLD) Plenário Legislativo Digital (Lei nº 9.610/1998)<span class="pt"></span>Versão 1.0</span><button type="button" class="tvsair" id="tvSair" title="Voltar para a página do Legislar">Sair</button></div>
+    </div>
+  </div>
+</div>
+<div id="modalRoot"></div>
+<div id="msgRoot"></div>
+
+<script src="visualizar.js"></script>
+<!-- Firebase 10 nos navegadores novos; Firebase 8 nas Smart TVs antigas (ex.: Hisense) — ver js/tv-compat.js -->
+<script>__fb()</script>
+<script id="app-votacao">window.__ok_votacao = 1;   /* TV antiga: se este bloco não rodar, js/tv-compat.js converte e roda */
+/* ===================== dados fixos ===================== */
+const VEREADORES = [   // Câmara Municipal de Itapitanga — fotos: acrescentar depois
+  {id:'v1', nome:"Erlon de Piriquito", ap:1, foto:''},
+  {id:'v4', nome:"Railda Nascimento", ap:2, foto:''},
+  {id:'v5', nome:"Daline de Zé Araújo", ap:3, foto:''},
+  {id:'v9', nome:"Néu de Aurino", ap:4, foto:''},
+  {id:'v6', nome:"Lau Barreto", ap:5, foto:''},
+  {id:'v2', nome:"Rildes Magalhães", ap:6, foto:''},
+  {id:'v3', nome:"Mateus de Joilson", ap:7, foto:''},
+  {id:'v7', nome:"Núbia Oliveira", ap:8, foto:''},
+  {id:'v8', nome:"Dika Damasceno", ap:9, foto:''}
+];
+const QUORUM = 5;               // maioria absoluta de 9
+// vereador entra só tocando no nome (sem senha)
+/* Senha do Operador: o arquivo guarda só o código SHA-256 de ('vp-operador:' + senha), nunca a senha.
+   Para trocar a senha, gere o novo código e substitua em OPERADOR.hash. */
+const OPERADOR = {user:'operador', hash:'e813d870d465eb0a1308926a7e5641ec31beb1f85bc67304d509c066153377b1'};
+async function sha256hex(txt){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+  return Array.prototype.map.call(new Uint8Array(buf), b => (b < 16 ? '0' : '') + b.toString(16)).join('');
+}
+const VOTO_LABEL = {sim:'APROVAR', nao:'REPROVAR', abs:'ABSTER'};
+const VOTO_CURTO = {sim:'SIM', nao:'NÃO', abs:'ABST.'};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ini = n => n.split(' ').filter(Boolean).map(p=>p[0]).slice(0,2).join('').toUpperCase();
+const avInner = v => `${ini(v.nome)}${v.foto ? `<img class="avfoto" src="${v.foto}" alt="" loading="lazy" onerror="this.remove()">` : ''}`;
+const vName = id => (VEREADORES.find(v=>v.id===id)||{}).nome || '—';
+/* login do Operador só vale enquanto a página está aberta: pede a senha toda vez que abrir */
+let OP_OK = false;
+try{ localStorage.removeItem('vp_op'); }catch(e){}
+const ls = {
+  get(k){ try{ return localStorage.getItem(k) }catch(e){ return null } },
+  set(k,v){ try{ localStorage.setItem(k,v) }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k) }catch(e){} }
+};
+
+/* ===================== FIREBASE — COLE AQUI A CONFIGURAÇÃO =====================
+   Firebase Console > Configurações do projeto > Seus apps > Configuração do SDK.
+   Pode usar o mesmo projeto das outras páginas do plenário (presença, controle de fala).
+   Precisa ter o "Realtime Database" criado (o databaseURL aparece lá). */
+const FIREBASE_CONFIG = window.PLD_FIREBASE;
+const RAIZ = 'legislar/itapitanga/votacao';   // pasta no banco, junto dos outros sistemas do plenário (mesmas regras de acesso)
+
+/* ===================== armazenamento ===================== */
+/* Online: Firebase Realtime Database (tempo real entre tablets, computador e TV).
+   Local: localStorage + BroadcastChannel (só abas do mesmo navegador, para teste). */
+const Local = {
+  subs:[], ch:null,
+  init(){
+    try{ this.ch = new BroadcastChannel('votacao-plenaria-itapitanga'); this.ch.onmessage = () => this.fire(); }catch(e){}
+    addEventListener('storage', e => { if(!e.key || e.key.startsWith('vp:')) this.fire(); });
+  },
+  read(p){ try{ const v = localStorage.getItem('vp:'+p); return v ? JSON.parse(v) : null }catch(e){ return null } },
+  keys(){ const out=[]; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith('vp:')) out.push(k.slice(3)); } }catch(e){} return out },
+  async get(p){ return this.read(p) },
+  async set(p,d){ try{ localStorage.setItem('vp:'+p, JSON.stringify(d)) }catch(e){} this.ch && this.ch.postMessage(1); this.fire(); },
+  async del(p){ try{ localStorage.removeItem('vp:'+p) }catch(e){} this.ch && this.ch.postMessage(1); this.fire(); },
+  async setIfAbsent(p,d){ if(this.read(p)) return false; await this.set(p,d); return true; },
+  watchDoc(p,cb){ const f=()=>cb(this.read(p)); this.subs.push(f); setTimeout(f,0); },
+  watchCol(c,cb){ const f=()=>cb(this.keys().filter(k=>{const s=k.split('/');return s.length===2&&s[0]===c}).map(k=>Object.assign({id:k.split('/')[1]}, this.read(k)))); this.subs.push(f); setTimeout(f,0); },
+  fire(){ this.subs.forEach(f=>f()) }
+};
+/* tablet: só fica na Votação enquanto o operador (notebook) estiver com ela aberta */
+let TELA_OK = true;
+/* última matéria votada: o tablet sai da votação sozinho (depois de mostrar o resultado) */
+let saindo = false;
+function sairConcluido(){
+  if(saindo) return; saindo = true;
+  setTimeout(() => { const e = E(); if(e.pautaConcluida && !emCurso(e)) location.href = 'dashboard.html'; else saindo = false; }, 5000);
+}
+function voltarAoDashboard(){
+  if(TELA_OK) return;
+  if(emCurso(E())) return;            // não tira o vereador no meio de uma votação (nem no desempate)
+  if(document.querySelector('#modalRoot .modal')) return;   // nem durante a confirmação do voto
+  location.href = 'dashboard.html';
+}
+
+/* relógio do servidor (tablets, notebook e TV com o mesmo horário) */
+let OFFSET = 0;
+try{ OFFSET = +ls.get('vp_offset') || 0; }catch(e){}
+const agora = () => Date.now() + OFFSET;
+/* ===================== SEM INTERNET =====================
+   O Firebase guarda no próprio aparelho tudo o que for feito sem internet e envia sozinho quando a conexão volta.
+   Aqui: nenhuma ação fica "travada" esperando a internet (prazo curto), o último estado conhecido fica salvo
+   no aparelho (abre mesmo sem internet) e o voto dado sem internet fica guardado até ser entregue. */
+let ONLINE = false, JA_CONECTOU = false;
+const comPrazo = (p, ms, valorNoPrazo) => new Promise((res, rej) => {
+  let feito = false;
+  const t = setTimeout(() => { if(feito) return; feito = true; valorNoPrazo instanceof Error ? rej(valorNoPrazo) : res(valorNoPrazo); }, ms);
+  Promise.resolve(p).then(v => { if(feito) return; feito = true; clearTimeout(t); res(v); }, e => { if(feito) return; feito = true; clearTimeout(t); rej(e); });
+});
+const SEM_REDE = () => new Error('sem-internet');
+const Store = {
+  db:null, mode:'conectando',
+  ref(p){ return this.db.ref(RAIZ + '/' + p); },
+  async init(){
+    try{
+      if(window.firebase && FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.databaseURL){
+        if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        this.db = firebase.database();
+        this.mode = 'conectando';
+        setTimeout(() => { if(!ONLINE){ this.mode = 'offline'; render(); } }, 5000);
+        this.db.ref('.info/serverTimeOffset').on('value', s => { OFFSET = s.val() || 0; ls.set('vp_offset', String(OFFSET)); });
+        /* quando a Votação foi aberta pela última vez no notebook (para o telão não mostrar "Sessão encerrada" antiga) */
+        this.db.ref('legislar/itapitanga/painel/tela').on('value', s => { const v = s.val() || {}; ABERTA_EM = v.pagina === 'votacao.html' && v.em ? v.em : 0; render(); });
+        if(EH_TABLET) this.db.ref('legislar/itapitanga/painel/tela').on('value', s => {
+          const v = s.val() || {}, aberta = v.pagina === 'votacao.html' && v.em && (agora() - v.em < 4*3600*1000);
+          TELA_OK = aberta === true;
+          if(!aberta) voltarAoDashboard();
+        });
+        this.db.ref('.info/connected').on('value', s => {
+          const on = !!s.val(), antes = ONLINE;
+          ONLINE = on;
+          if(on){ this.mode = 'online'; tabletOnline(); setTimeout(reenviarPendentes, 1500); if(JA_CONECTOU && !antes) toast('Internet de volta. Tudo sincronizado.'); JA_CONECTOU = true; }
+          else if(JA_CONECTOU || this.mode === 'offline') this.mode = 'offline';
+          render();
+        });
+        return;
+      }
+    }catch(e){ console.error(e); }
+    this.mode = 'local'; Local.init();
+  },
+  watchDoc(p,cb){
+    if(!this.db) return Local.watchDoc(p,cb);
+    this.ref(p).on('value', s => cb(s.val()), onDbError);
+  },
+  watchCol(c,cb){
+    if(!this.db) return Local.watchCol(c,cb);
+    this.ref(c).on('value', s => { const v = s.val() || {}; cb(Object.keys(v).map(id => Object.assign({id:id}, v[id]))); }, onDbError);
+  },
+  /* leitura: sem internet usa o que já está no aparelho; se não houver, desiste em 3 s (não trava a tela) */
+  async get(p){ if(!this.db) return Local.get(p); const s = await comPrazo(this.ref(p).once('value'), 3000, SEM_REDE()); return s.val(); },
+  /* gravação: sem internet fica guardada no aparelho e o Firebase envia sozinho quando a conexão volta */
+  async set(p,d){ if(!this.db) return Local.set(p,d); return comPrazo(this.ref(p).set(d), 2500, 'pendente'); },
+  async del(p){ if(!this.db) return Local.del(p); return comPrazo(this.ref(p).remove(), 2500, 'pendente'); },
+  /* grava só se ainda não existir (registro único do voto).
+     Sem internet: a gravação fica na fila do aparelho e é confirmada no servidor quando a conexão voltar ('pendente'). */
+  async setIfAbsent(p,d){
+    if(!this.db) return Local.setIfAbsent(p,d);
+    const r = await comPrazo(this.ref(p).transaction(cur => cur ? undefined : d), ONLINE ? 6000 : 1500, 'pendente');
+    if(r === 'pendente') return 'pendente';
+    return r.committed;
+  }
+};
+/* ---------- último estado conhecido guardado no aparelho (abre mesmo sem internet) ---------- */
+let cacheT = null, CACHE_PRONTO = false;
+function salvarCache(){
+  if(Store.mode === 'local' || !CACHE_PRONTO) return;
+  clearTimeout(cacheT);
+  cacheT = setTimeout(() => {
+    try{ ls.set('vp_cache', JSON.stringify({t:Date.now(), estado:S.estado, presenca:S.presenca, pauta:S.pauta, votos:S.votos, aparelhos:S.aparelhos, ensaio:ENSAIO, abertaEm:ABERTA_EM})); }catch(e){}
+  }, 600);
+}
+function carregarCache(){
+  try{
+    const c = JSON.parse(ls.get('vp_cache') || 'null');
+    if(!c || !c.t || Date.now() - c.t > 12*3600*1000) return;
+    S.estado = c.estado || null; S.presenca = c.presenca || {}; S.pauta = c.pauta || []; S.votos = c.votos || [];
+    S.aparelhos = c.aparelhos || {}; ENSAIO = !!c.ensaio; ABERTA_EM = c.abertaEm || 0;
+  }catch(e){}
+}
+/* ---------- votos dados sem internet: ficam guardados no tablet até o servidor confirmar ---------- */
+const PEND = 'vp_pend';
+const lerPend = () => { try{ return JSON.parse(ls.get(PEND) || '{}') || {}; }catch(e){ return {}; } };
+const gravarPend = o => { if(Object.keys(o).length) ls.set(PEND, JSON.stringify(o)); else ls.del(PEND); };
+let reenviando = false;
+async function reenviarPendentes(){
+  if(reenviando || !Store.db || !ONLINE) return;
+  const pend = lerPend(); if(!Object.keys(pend).length) return;
+  reenviando = true;
+  try{
+    const atual = await Store.get('sessao/atual');
+    for(const path of Object.keys(pend)){
+      const doc = pend[path];
+      const ja = await Store.get(path);
+      if(ja){ delete pend[path]; continue; }                       // já chegou ao servidor
+      if(atual && atual.votacao === 'aberta' && atual.pautaId === doc.pid){
+        const r = await Store.setIfAbsent(path, doc);
+        if(r === true || r === false) delete pend[path];
+      } else {
+        delete pend[path];                                          // votação já encerrada: o voto não pode mais entrar
+        toast('A votação foi encerrada antes de o voto guardado chegar ao servidor.');
+      }
+    }
+  }catch(e){ /* tenta de novo na próxima reconexão */ }
+  finally{ gravarPend(pend); reenviando = false; }
+}
+function onDbError(e){ console.error(e); if(!ONLINE && !/permission/i.test((e && (e.code||e.message)) || '')) return; toast(e && /permission/i.test(e.code||e.message||'') ? 'O Firebase recusou o acesso. Confira as regras do Realtime Database.' : 'Falha de conexão com o banco. Verifique a internet.'); }
+
+/* ---------- tablet do vereador: conectado / desconectado em tempo real ---------- */
+let wakeLock = null;
+function tabletOnline(){
+  const vid = ls.get('vp_vid');
+  if(!Store.db || !vid || current !== 'v-vereador') return;
+  const r = Store.ref('login/' + vid);
+  r.onDisconnect().set({logado:false, ts:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+  r.set({logado:true, ts:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});
+  // mantém a tela do tablet acesa durante a sessão
+  try{ if(!wakeLock && navigator.wakeLock) navigator.wakeLock.request('screen').then(w => { wakeLock = w; w.addEventListener('release', () => wakeLock = null); }).catch(()=>{}); }catch(e){}
+}
+function tabletOffline(vid){
+  if(Store.db && vid){ const r = Store.ref('login/' + vid); r.onDisconnect().cancel().catch(()=>{}); }
+  try{ if(wakeLock){ wakeLock.release(); wakeLock = null; } }catch(e){}
+}
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') tabletOnline(); });
+
+/* gravação: o Firebase já envia na ordem em que foram feitas (também as feitas sem internet).
+   Não espera a confirmação do servidor para seguir — sem internet a tela não trava. */
+function write(path, data){
+  return Store.set(path, data).catch(e => { toast('Não foi possível gravar. Tente de novo.'); console.error(e); });
+}
+
+/* ===================== estado em memória ===================== */
+let VER_ARQ = false;   // Operador: mostrando a lista de matérias arquivadas
+const S = { estado:null, login:{}, presenca:{}, pauta:[], votos:[], aparelhos:{}, apLoaded:false, loaded:false };
+/* ---------- cada tablet pertence a um único vereador ----------
+   O tablet tem uma identidade própria (vp_dev). No primeiro acesso, o nome escolhido fica vinculado a ele
+   (aparelhos/{vereador} = {dev}). Depois, o tablet só mostra o nome do dono, e esse vereador não entra em
+   outro tablet. Para trocar de tablet, o Operador usa "Liberar tablet" no painel da Mesa. */
+const DEV = (() => { let d = ls.get('vp_dev'); if(!d){ d = 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); ls.set('vp_dev', d); } return d; })();
+const donoDoTablet = () => ENSAIO ? null : Object.keys(S.aparelhos).find(vid => S.aparelhos[vid] && S.aparelhos[vid].dev === DEV) || null;
+/* MODO DE ENSAIO (ligado pelo Operador): os tablets não ficam presos a um vereador — igual a antes do vínculo */
+let ENSAIO = false;
+const vinculoOutro = vid => !ENSAIO && !!(S.aparelhos[vid] && S.aparelhos[vid].dev !== DEV);
+const defEstado = () => ({aberta:false, abertaEm:null, chamada:false, presidente:'', pautaId:null, votacao:'livre', inicioVotacao:null, resultado:null, apuracao:null, pautaConcluida:false});
+const PRESIDENTE_PADRAO = 'v6';   // Aparelho 5 (Lau Barreto) — Presidente da Mesa (desempata)
+/* "Sessão encerrada" só aparece logo depois do encerramento (até 2 h); depois volta a ser "ainda não começou" */
+/* e só se foi encerrada DEPOIS da última abertura da Votação: abriu o sistema de novo → "Câmara Municipal de Itapitanga" */
+let ABERTA_EM = 0;
+const encerradaRecente = e => !!(e.sessaoEncerrada && e.encerradaEm && (agora() - e.encerradaEm < 2*3600*1000) && e.encerradaEm > ABERTA_EM);
+const E = () => { const e = Object.assign(defEstado(), S.estado || {}); if(!e.presidente) e.presidente = PRESIDENTE_PADRAO; return e; };
+function setEstado(patch){ const novo = Object.assign({}, E(), patch); S.estado = novo; render(); return write('sessao/atual', novo); }
+/* votação em curso = aberta ou aguardando o desempate do Presidente */
+const emCurso = e => e.votacao === 'aberta' || e.votacao === 'desempate';
+// Presença padrão = PRESENTE (pedido do usuário, 09/11/2026): com a sessão fechada todos aparecem presentes;
+// com a sessão aberta vale a lista da chamada (o operador marca só quem faltar).
+const estaPresente = id => !(E() && E().aberta) || !!(S.presenca[id] && S.presenca[id].presente);
+const presentes = () => VEREADORES.filter(v => estaPresente(v.id));
+const pautaAtual = () => S.pauta.find(p => p.id === E().pautaId) || null;
+const votosDe = pid => S.votos.filter(v => v.pid === pid);
+const pautaOrdenada = () => [...S.pauta].sort((a,b) => (a.ordem||0) - (b.ordem||0));
+
+/* ===================== roteamento ===================== */
+const VIEWS = ['v-inicio','v-op-login','v-operador','v-ver-login','v-vereador','v-telao'];
+/* Tablet / celular (tela de toque sem mouse ou touchpad): só a parte do vereador (Aprovar, Reprovar, Abster).
+   O Operador é só o notebook; o Telão é só a Smart TV. */
+const EH_TABLET = (() => { try{ return navigator.maxTouchPoints > 0 && (!matchMedia('(any-pointer: fine)').matches || matchMedia('(pointer: coarse)').matches || /Android|iPad|iPhone|Mobile/i.test(navigator.userAgent || '')); }catch(e){ return false; } })();
+let semTelaCheia = false;   // o vereador saiu da tela cheia pelo botão: não volta sozinha
+// instalado como aplicativo (manifest.json, display fullscreen) = já está sempre em tela cheia
+const comoApp = () => { try{ return matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }catch(e){ return false; } };
+const emTelaCheia = () => comoApp() || !!(document.fullscreenElement || document.webkitFullscreenElement);
+function telaCheia(ev){
+  const d = document, el = d.documentElement;
+  if((semTelaCheia && !document.documentElement.classList.contains('sessao-real')) || (ev && ev.target && ev.target.closest && ev.target.closest('#btnTela'))) return;
+  if(emTelaCheia()) return;
+  const f = el.requestFullscreen || el.webkitRequestFullscreen;
+  if(!f) return;
+  try{ const r = f.call(el); if(r && r.catch) r.catch(()=>{}); }catch(e){}
+}
+if(EH_TABLET){
+  document.documentElement.classList.add('tablet');
+  // botãozinho de sair / entrar na tela cheia
+  const bt = document.getElementById('btnTela');
+  const atualizaBtn = () => {
+    const on = emTelaCheia();
+    bt.querySelector('span').textContent = on ? 'Sair da tela cheia' : 'Tela cheia';
+    bt.setAttribute('aria-label', on ? 'Sair da tela cheia' : 'Entrar em tela cheia');
+    bt.querySelector('path').setAttribute('d', on ? 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5' : 'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5');
+  };
+  bt.hidden = comoApp();   // como aplicativo o botão não é necessário
+  // Android (Chrome): botão "Instalar app" — instalado, abre sempre em tela cheia, sem barras
+  const bi = document.getElementById('btnInstalar');
+  let pedidoInstalar = null;
+  window.addEventListener('beforeinstallprompt', ev => {
+    ev.preventDefault(); pedidoInstalar = ev;
+    if(!comoApp()) bi.hidden = false;
+  });
+  window.addEventListener('appinstalled', () => { bi.hidden = true; pedidoInstalar = null; });
+  bi.addEventListener('click', () => {
+    if(!pedidoInstalar) return;
+    pedidoInstalar.prompt();
+    pedidoInstalar.userChoice.then(r => { if(r && r.outcome === 'accepted') bi.hidden = true; }).catch(()=>{});
+    pedidoInstalar = null;
+  });
+  bt.addEventListener('click', () => {
+    if(emTelaCheia()){
+      semTelaCheia = true;
+      const x = document.exitFullscreen || document.webkitExitFullscreen;
+      try{ const r = x && x.call(document); if(r && r.catch) r.catch(()=>{}); }catch(e){}
+    } else {
+      semTelaCheia = false; telaCheia();
+    }
+  });
+  document.addEventListener('fullscreenchange', atualizaBtn);
+  document.addEventListener('webkitfullscreenchange', atualizaBtn);
+  atualizaBtn();
+  // tela cheia no primeiro toque (e de novo se o tablet sair dela)
+  document.addEventListener('click', telaCheia, true);
+  document.addEventListener('touchend', telaCheia, true);
+  document.querySelectorAll('.role[data-go="operador"], .role[data-go="telao"]').forEach(b => b.remove());
+  const home = document.getElementById('homeLink'); if(home) home.remove();
+  OP_OK = false;
+}
+function route(){
+  let h = (location.hash || '#inicio').slice(1);
+  if(EH_TABLET && h !== 'vereador'){ h = 'vereador'; history.replaceState(null, '', '#vereador'); }
+  let view = 'v-inicio';
+  if(h === 'operador') view = OP_OK ? 'v-operador' : 'v-op-login';
+  else if(h === 'vereador') view = ls.get('vp_vid') ? 'v-vereador' : 'v-ver-login';
+  else if(h === 'telao') view = 'v-telao';
+  VIEWS.forEach(id => $('#'+id).hidden = id !== view);
+  $('#topbar').hidden = view === 'v-telao';
+  const home = document.getElementById('homeLink'); if(home) home.hidden = view === 'v-inicio';   /* na própria tela de início o botão não faz nada */
+  document.body.style.background = view === 'v-telao' ? '#070b16' : '';
+  current = view;
+  if(view === 'v-inicio') OP_OK = false;
+  document.documentElement.classList.toggle('vz', view === 'v-vereador' || view === 'v-ver-login');
+  if(view === 'v-vereador') tabletOnline();
+  if(view === 'v-telao') ajustarTV();
+  render();
+}
+let current = 'v-inicio';
+addEventListener('hashchange', route);
+document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => location.hash = b.dataset.go));
+
+/* ---------- telão: ajusta a tela fixa 1920×1080 ao tamanho de qualquer TV ---------- */
+function ajustarTV(){
+  const w = document.querySelector('#v-telao .tvwrap'); if(!w) return;
+  const W = window.innerWidth || document.documentElement.clientWidth || 1920;
+  const H = window.innerHeight || document.documentElement.clientHeight || 1080;
+  const k = Math.min(W/1920, H/1080), x = Math.max(0, (W - 1920*k)/2), y = Math.max(0, (H - 1080*k)/2);
+  const t = 'translate(' + x + 'px,' + y + 'px) scale(' + k + ')';
+  w.style.webkitTransform = t; w.style.transform = t;
+}
+addEventListener('resize', ajustarTV);
+addEventListener('orientationchange', () => setTimeout(ajustarTV, 300));
+
+/* ===================== votação automática (comandada pelo notebook do Operador) =====================
+   1) todos os presentes votaram  -> encerra sozinha (2,5 s)
+   2) resultado na tela por 8 s   -> abre a próxima matéria pendente da pauta
+   3) não há mais matérias        -> marca a pauta como concluída e os tablets saem sozinhos
+   Empate: espera o desempate do Presidente e depois segue. */
+let autoT = null, autoChave = '';
+function automacao(){
+  if(EH_TABLET || !OP_OK) return;
+  const e = E(), m = pautaAtual();
+  let chave = '', espera = 0, acao = null;
+  if(e.aberta && e.votacao === 'aberta' && m){
+    const ps = presentes(), vs = votosDe(m.id);
+    if(ps.length && ps.every(v => vs.some(x => x.vid === v.id))){
+      chave = 'enc:' + m.id; espera = 2500;
+      acao = () => { const a = E(), mm = pautaAtual(); if(a.votacao === 'aberta' && mm && mm.id === m.id) encerrar(mm); };
+    }
+  } else if(e.aberta && e.votacao === 'encerrada' && m && !e.pautaConcluida){
+    chave = 'prox:' + m.id; espera = 8000;
+    acao = () => {
+      const a = E(); if(a.votacao !== 'encerrada' || a.pautaId !== m.id) return;
+      const prox = pautaOrdenada().find(p => p.status !== 'votado' && p.id !== m.id);
+      if(prox && presentes().length >= QUORUM){
+        setEstado({pautaId:prox.id, votacao:'aberta', inicioVotacao:agora(), resultado:null, apuracao:null, pautaConcluida:false});
+        toast('Próxima matéria liberada: ' + prox.tipo + ' Nº ' + prox.numero);
+      } else if(!prox){
+        setEstado({pautaConcluida:true});
+        toast('Pauta concluída. Os tablets voltam ao início.');
+      }
+    };
+  }
+  if(chave === autoChave) return;
+  clearTimeout(autoT); autoChave = chave;
+  if(acao) autoT = setTimeout(() => { autoChave = ''; acao(); }, espera);
+}
+
+/* ===================== render ===================== */
+function render(){
+  const pill = $('#modePill');
+  pill.className = 'pill ' + (Store.mode === 'online' ? 'on' : Store.mode === 'local' ? 'loc' : Store.mode === 'offline' ? 'off' : '');
+  pill.querySelector('span').textContent = Store.mode === 'online' ? 'Ao vivo' : Store.mode === 'local' ? 'Modo local' : Store.mode === 'offline' ? 'Sem internet' : 'Conectando';
+  $('#localBanner').hidden = Store.mode !== 'local';
+  /* aviso de "sem internet" (no telão só um selo discreto no canto) */
+  const off = Store.mode === 'offline', nb = $('#offBanner'), sl = $('#tvOff');
+  if(nb){
+    nb.hidden = !off || current === 'v-telao';
+    nb.textContent = current === 'v-vereador' || current === 'v-ver-login'
+      ? 'Sem internet no momento. Pode votar normalmente: o voto fica guardado neste tablet e é enviado sozinho quando a conexão voltar.'
+      : 'Sem internet no momento. O sistema continua funcionando neste aparelho; tudo o que for feito agora é enviado sozinho quando a conexão voltar. Os votos dos tablets chegam assim que a internet voltar.';
+  }
+  if(sl) sl.hidden = !off || current !== 'v-telao';
+  salvarCache();
+  const chk = $('#chkEnsaio'); if(chk && document.activeElement !== chk) chk.checked = ENSAIO;
+  if(current === 'v-operador') renderOperador();
+  if(current === 'v-vereador') renderVereador();
+  if(current === 'v-telao') renderTelao();
+  if(current === 'v-vereador') autoPresidente();
+  if(current === 'v-ver-login' && !autoPresidente()) renderNameGrid();
+  automacao();
+}
+
+/* EMPATE: o tablet do Presidente da Mesa entra sozinho na tela de voto (sem "Toque no seu nome"), só para desempatar.
+   Tablet do Presidente = vinculado a ele (fora do ensaio) ou, no ensaio, o último a entrar com o nome dele.
+   Uma vez por votação: se o Presidente apertar Sair, não entra de novo sozinho. */
+var autoPresFeito = '';
+function autoPresidente(){
+  if(!EH_TABLET) return false;
+  const e = E(), m = pautaAtual(), p = e.presidente;
+  if(e.votacao !== 'desempate' || !p || !m) return false;
+  const chave = m.id + '|' + (e.inicioVotacao || '');
+  if(autoPresFeito === chave) return false;
+  if(current === 'v-vereador'){ if(ls.get('vp_vid') === p) autoPresFeito = chave; return false; }   /* já está na tela */
+  const meu = ENSAIO ? ls.get('vp_ult') === p : !!(S.apLoaded && S.aparelhos[p] && S.aparelhos[p].dev === DEV);
+  if(!meu) return false;
+  autoPresFeito = chave;
+  ls.set('vp_vid', p); ls.set('vp_ult', p); selVid = null;
+  write('login/'+p, {logado:true, ts:agora()});
+  route();
+  return true;
+}
+
+/* ---------- operador ---------- */
+function renderOperador(){
+  const e = E(), pres = presentes().length, okQ = pres >= QUORUM;
+  const st = [
+    ['Sessão aberta', e.aberta, !e.aberta],
+    ['Chamada feita', e.chamada, e.aberta && !e.chamada],
+    ['Quórum', e.chamada && okQ, e.chamada && !okQ],
+    ['Votação', e.votacao === 'encerrada', emCurso(e)],
+  ];
+  $('#opStage').innerHTML = st.map(([t,ok,now]) => `<span class="${ok?'ok':now?'now':''}">${t}</span>`).join('');
+  $('#sessChip').textContent = e.aberta ? 'Aberta' : 'Fechada';
+  $('#sessChip').className = 'chip' + (e.aberta ? ' v' : '');
+  $('#btnAbrir').disabled = e.aberta;
+  $('#btnChamada').disabled = !e.aberta || emCurso(e);
+  $('#btnChamada').textContent = e.chamada ? 'Chamada pelos tablets' : 'Fazer chamada';
+  $('#btnFecharSessao').disabled = !e.aberta || emCurso(e);
+  $('#qPres').textContent = pres;
+  const bar = $('#qBar'); bar.style.width = (pres/9*100)+'%'; bar.className = okQ ? 'ok' : '';
+  $('#qMark').style.left = (QUORUM/9*100)+'%';
+  $('#qMsg').textContent = !e.chamada ? 'Mínimo: 5 (maioria absoluta)' : okQ ? 'Quórum atingido' : `Faltam ${QUORUM-pres} para o quórum`;
+  $('#qMsg').style.color = e.chamada ? (okQ ? 'var(--sim)' : 'var(--nao)') : '';
+
+  const sel = $('#selPres');
+  if(document.activeElement !== sel){
+    sel.innerHTML = '<option value="">— selecionar —</option>' + VEREADORES.map(v => `<option value="${v.id}" ${e.presidente===v.id?'selected':''}>${esc(v.nome)}</option>`).join('');
+  }
+
+  $('#chamadaList').innerHTML = VEREADORES.map(v => {
+    const lg = S.login[v.id] && S.login[v.id].logado;
+    const pr = estaPresente(v.id);
+    return `<div class="vrow"><div class="av">${avInner(v)}</div>
+      <div class="nm">${esc(v.nome)}${e.presidente===v.id?' · <b style="color:var(--brass)">Presidente</b>':''}<small><span class="dot ${lg?'on':''}"></span>${lg?'Tablet conectado':'Tablet desconectado'} · Aparelho ${v.ap}${S.aparelhos[v.id]?` · <button type="button" class="linkbtn" data-liberar="${v.id}" style="font-size:.76rem;padding:0">Liberar tablet</button>`:''}</small></div>
+      <button class="tog ${pr?'on':''}" data-pres="${v.id}" ${(!e.aberta||emCurso(e))?'disabled':''}>${pr?'Presente':'Ausente'}</button></div>`;
+  }).join('');
+
+  /* votação atual */
+  const m = pautaAtual();
+  let html = '';
+  if(!m){
+    html = `<div class="current"><p class="muted" style="margin:0">Selecione uma matéria da pauta abaixo para liberar a votação.</p></div>`;
+  } else {
+    const vs = votosDe(m.id), cls = e.votacao==='aberta'?'live':e.votacao==='encerrada'?'done':e.votacao==='desempate'?'done':'';
+    html = `<div class="current ${cls}">
+      <span class="mtipo">${esc(m.tipo)} Nº ${esc(m.numero)}</span>
+      <p class="ementa">${esc(m.ementa)}</p>
+      <small class="muted">Autor: ${esc(m.autor||'—')}</small>`;
+    if(e.votacao === 'livre'){
+      const pode = e.aberta && e.chamada && presentes().length >= QUORUM;
+      html += `<div class="row"><button class="btn go" id="btnIniciar" ${pode?'':'disabled'}>Iniciar votação</button>
+        <button class="btn" id="btnDesmarcar">Trocar matéria</button></div>
+        ${pode?'':`<small class="muted">${!e.aberta?'Abra a sessão primeiro.':!e.chamada?'Faça a chamada primeiro.':'Sem quórum para votar.'}</small>`}`;
+    } else if(e.votacao === 'aberta'){
+      const ps = presentes();
+      html += `<div class="row" style="justify-content:space-between"><b style="color:var(--sim)">VOTAÇÃO ABERTA · <span class="big-num" data-elapsed></span></b><span><span class="big-num">${vs.length}</span> de ${ps.length} votaram</span></div>
+        <div class="votedline">${ps.map(v => { const x = vs.find(y=>y.vid===v.id); return `<span class="chip ${x?x.voto:''}">${esc(v.nome.split(' ')[0])}${x?' · '+VOTO_CURTO[x.voto]:''}</span>`; }).join('')}</div>
+        ${(() => { const falta = ps.filter(v => !vs.some(y => y.vid === v.id)); return !falta.length ? '' :
+          `<div class="faltam"><b>Faltam votar (${falta.length}):</b> <small class="muted">se alguém não está no plenário, marque como ausente para a votação não ficar esperando.</small>
+          <div class="faltam-lista">${falta.map(v => `<span class="faltam-it">${esc(v.nome)}<button type="button" class="tog" data-ausente="${v.id}">Marcar ausente</button></span>`).join('')}</div></div>`; })()}
+        <div class="row"><button class="btn stop" id="btnEncerrar">Encerrar votação</button></div>`;
+    } else if(e.votacao === 'desempate'){
+      const a = e.apuracao || {};
+      html += `<div class="row" style="justify-content:space-between"><span class="res" style="font-size:2rem;color:var(--brass)">EMPATE</span>
+        <span class="row"><span class="chip sim">SIM ${a.sim||0}</span><span class="chip nao">NÃO ${a.nao||0}</span><span class="chip abs">ABST. ${a.abs||0}</span></span></div>
+        <p style="margin:0"><b>${e.presidente ? 'Aguardando o voto de desempate do Presidente ' + esc(vName(e.presidente)) + ' no tablet.' : 'Selecione o Presidente da Mesa (na Sessão e quórum) para desempatar.'}</b></p>
+        <small class="muted">Se o Presidente estiver sem tablet, registre aqui a decisão dele:</small>
+        <div class="row"><button class="btn go" data-minerva="sim">Presidente: APROVAR</button><button class="btn stop" data-minerva="nao">Presidente: REPROVAR</button></div>`;
+    } else {
+      const r = e.resultado || {};
+      html += `<div class="row" style="justify-content:space-between"><span class="res ${r.veredito==='APROVADO'?'ap':'rp'}" style="font-size:2rem">${esc(r.veredito||'')}</span>
+        <span class="row"><span class="chip sim">SIM ${r.sim||0}</span><span class="chip nao">NÃO ${r.nao||0}</span><span class="chip abs">ABST. ${r.abs||0}</span><span class="chip">Não votou ${r.naoVotou||0}</span></span></div>
+        ${r.desempate ? `<small style="color:var(--brass);font-weight:700">Empate decidido pelo voto do Presidente${r.presidente ? ' ' + esc(vName(r.presidente)) : ''}: ${VOTO_LABEL[r.desempate]}</small>` : ''}
+        <small style="color:var(--brass);font-weight:700">${e.pautaConcluida ? 'Pauta concluída: os tablets voltaram ao início.' : (pautaOrdenada().some(p => p.status !== 'votado' && p.id !== m.id) && presentes().length >= QUORUM ? 'A próxima matéria abre sozinha em alguns segundos.' : 'Era a última matéria da pauta: os tablets vão sair da votação sozinhos.')}</small>
+        <div class="row"><button class="btn primary" id="btnProxima">Próxima matéria</button></div>`;
+    }
+    html += `</div>`;
+  }
+  $('#opCurrent').innerHTML = html;
+
+  const todas = pautaOrdenada(), arq = todas.filter(p => p.arquivado);
+  const lista = VER_ARQ ? arq : todas.filter(p => !p.arquivado);
+  if(VER_ARQ && !arq.length) VER_ARQ = false;
+  $('#pautaCount').innerHTML = (VER_ARQ ? `${arq.length} arquivada(s)` : `${todas.filter(p=>p.status!=='votado').length} pendente(s)`) +
+    (arq.length || VER_ARQ ? ` · <button type="button" class="linkbtn" id="btnArq">${VER_ARQ ? 'Voltar à pauta' : `Arquivadas (${arq.length})`}</button>` : '') +
+    (VER_ARQ && arq.length ? ` · <button type="button" class="linkbtn" id="btnApagarTodas" style="color:var(--nao)">Apagar todas</button>` : '');
+  $('#pautaList').innerHTML = lista.length ? lista.map((p,i) => {
+    const sel = p.id === e.pautaId;
+    const r = p.resultado;
+    const right = p.arquivado
+      ? `<span class="row"><span class="res ${r&&r.veredito==='APROVADO'?'ap':'rp'}">${esc(r?r.veredito:'')}</span><button class="linkbtn" data-rest="${p.id}" style="margin-left:10px">Restaurar</button><button class="lixo" data-apagar="${p.id}" title="Apagar definitivamente (pede senha)" aria-label="Apagar definitivamente"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></span>`
+      : p.status === 'votado'
+      ? `<span class="row"><span class="res ${r&&r.veredito==='APROVADO'?'ap':'rp'}">${esc(r?r.veredito:'')}</span><button class="lixo" data-del="${p.id}" ${sel&&e.votacao!=='livre'?'disabled':''} title="Arquivar esta matéria votada" aria-label="Arquivar"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></span>`
+      : `<span class="row"><button class="btn selpauta${sel?' ativa':''}" data-sel="${p.id}" ${(emCurso(e)||sel)?'disabled':''}>${sel?'Selecionada':'Selecionar Pauta'}</button><button class="linkbtn" data-del="${p.id}" ${emCurso(e)&&sel?'disabled':''} aria-label="Remover">Remover</button></span>`;
+    return `<div class="pitem ${sel?'sel':''}"><span class="n">${i+1}</span><div style="min-width:0"><small class="mtipo">${esc(p.tipo)} Nº ${esc(p.numero)}</small><p>${esc(p.ementa)}</p><small>${esc(p.autor||'')}</small></div>${right}</div>`;
+  }).join('') : `<p class="muted" style="margin:0">${VER_ARQ ? 'Nenhuma matéria arquivada.' : 'Nenhuma matéria na pauta. Adicione a primeira no formulário abaixo.'}</p>`;
+  tickElapsed();
+}
+
+/* ações do operador */
+$('#opLoginForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  let ok = false;
+  try{ ok = $('#opUser').value.trim().toLowerCase() === OPERADOR.user && (await sha256hex('vp-operador:' + $('#opPass').value)) === OPERADOR.hash; }
+  catch(e){ $('#opErr').textContent = 'Este navegador não consegue verificar a senha. Use o Chrome ou o Edge atualizado.'; return; }
+  if(ok){
+    OP_OK = true; $('#opPass').value=''; $('#opErr').textContent=''; route();
+  } else $('#opErr').textContent = 'Usuário ou senha incorretos.';
+});
+/* Sair do Operador: volta para a página do Legislar (dashboard); a Smart TV continua mostrando o telão (ex.: "Sessão encerrada") */
+$('#opLogout').addEventListener('click', () => {
+  if(emCurso(E())) return toast('Há uma votação em andamento. Termine a votação antes de sair.');
+  OP_OK = false; location.href = 'dashboard.html';
+});
+// Abrir votação: todos os vereadores já entram como PRESENTES (pedido do usuário, 09/11/2026) — dá tempo de
+// cada um entrar no tablet. Quem faltar, o operador marca como Ausente na lista da chamada.
+$('#btnAbrir').addEventListener('click', () => {
+  VEREADORES.forEach(v => { S.presenca[v.id] = {presente:true, ts:agora()}; write('presenca/'+v.id, S.presenca[v.id]); });
+  setEstado({aberta:true, abertaEm:agora(), chamada:true, votacao:'livre', pautaId:null, resultado:null, sessaoEncerrada:false});
+  toast('Votação aberta: todos marcados como presentes. Marque como Ausente quem faltar.');
+});
+$('#btnChamada').addEventListener('click', async () => {
+  for(const v of VEREADORES){
+    const lg = !!(S.login[v.id] && S.login[v.id].logado);
+    S.presenca[v.id] = {presente:lg, ts:agora()};
+    write('presenca/'+v.id, S.presenca[v.id]);
+  }
+  await setEstado({chamada:true});
+  const n = presentes().length;
+  toast(n >= QUORUM ? `Chamada feita: ${n} presentes. Quórum atingido.` : `Chamada feita: ${n} presentes. Sem quórum.`);
+});
+$('#chamadaList').addEventListener('click', ev => {
+  const lib = ev.target.closest('[data-liberar]');
+  if(lib){
+    const id = lib.dataset.liberar;
+    return confirmBox({titulo:'Liberar tablet?', texto:`${vName(id)} poderá entrar por outro tablet. O primeiro tablet em que ele entrar ficará vinculado a ele.`, ok:'Liberar', cls:'brass',
+      onOk: () => Store.del('aparelhos/' + id).then(() => toast('Tablet liberado.')).catch(() => toast('Não foi possível liberar. Verifique a internet.'))});
+  }
+  const b = ev.target.closest('[data-pres]'); if(!b) return;
+  const id = b.dataset.pres, now = !(S.presenca[id] && S.presenca[id].presente);
+  S.presenca[id] = {presente:now, ts:agora()}; render();
+  write('presenca/'+id, S.presenca[id]);
+  if(!E().chamada) setEstado({chamada:true});
+});
+$('#selPres').addEventListener('change', ev => setEstado({presidente:ev.target.value}));
+$('#chkEnsaio').addEventListener('change', ev => {
+  const ligar = ev.target.checked;
+  ENSAIO = ligar; render();
+  write('config/ensaio', {ligado:ligar, em:agora()});
+  toast(ligar ? 'Modo de ensaio LIGADO: os tablets não ficam presos a um vereador.' : 'Modo de ensaio desligado: cada tablet volta a ser de um só vereador.');
+});
+$('#btnFecharSessao').addEventListener('click', () => confirmBox({
+  titulo:'Encerrar a sessão?', texto:'A presença será zerada e os tablets voltarão para a tela de espera.', ok:'Encerrar sessão', cls:'stop',
+  onOk: () => { VEREADORES.forEach(v => { S.presenca[v.id]={presente:true,ts:agora()}; write('presenca/'+v.id, S.presenca[v.id]); }); setEstado(Object.assign(defEstado(), {presidente:E().presidente, sessaoEncerrada:true, encerradaEm:agora()})); toast('Sessão encerrada.'); }
+}));
+$('#opCurrent').addEventListener('click', ev => {
+  // "Marcar ausente" no aviso "Faltam votar": tira o vereador dos presentes durante a votação aberta
+  const au = ev.target.closest('[data-ausente]');
+  if(au){
+    const vid = au.dataset.ausente, restam = presentes().length - 1;
+    return confirmBox({titulo:'Marcar como ausente?', texto:`${vName(vid)} deixa de contar como presente e a votação não espera mais o voto dele.` + (restam < QUORUM ? ` ATENÇÃO: ficarão só ${restam} presentes, abaixo do quórum de ${QUORUM}.` : ''), ok:'Marcar ausente', cls:'stop',
+      onOk: () => { S.presenca[vid] = {presente:false, ts:agora()}; write('presenca/'+vid, S.presenca[vid]); render(); toast(`${vName(vid)} marcado como ausente.`); }});
+  }
+  const mb = ev.target.closest('[data-minerva]');
+  if(mb){ const voto = mb.dataset.minerva; return confirmBox({titulo:'Voto de desempate do Presidente', big:VOTO_LABEL[voto], bigColor:`var(--${voto})`, texto:'Registrar a decisão do Presidente da Mesa para esta matéria?', ok:'Registrar', cls: voto==='sim'?'go':'stop', onOk: () => desempatar(voto)}); }
+  const id = ev.target.id, m = pautaAtual();
+  if(id === 'btnIniciar' && m){
+    if(presentes().length < QUORUM) return toast('Sem quórum para iniciar.');
+    setEstado({votacao:'aberta', inicioVotacao:agora(), resultado:null, pautaConcluida:false}); toast('Votação liberada nos tablets.');
+  }
+  if(id === 'btnDesmarcar') setEstado({pautaId:null});
+  if(id === 'btnEncerrar' && m){
+    const semRede = presentes().filter(v => !votosDe(m.id).some(x => x.vid === v.id) && !(S.login[v.id] && S.login[v.id].logado)).map(v => v.nome.split(' ')[0]);
+    const aviso = !ONLINE && Store.db ? ' ATENÇÃO: este computador está sem internet — votos dados nos tablets podem ainda não ter chegado. Se possível, espere a internet voltar.'
+      : semRede.length ? ` Atenção: tablet sem conexão agora: ${semRede.join(', ')} (o voto pode estar guardado no tablet esperando a internet).` : '';
+    confirmBox({
+    titulo:'Encerrar a votação?', texto:`${votosDe(m.id).length} de ${presentes().length} presentes votaram. Quem não votou será contado como "não votou".` + aviso, ok:'Encerrar e apurar', cls:'stop',
+    onOk: () => encerrar(m)
+  }); }
+  if(id === 'btnProxima') setEstado({votacao:'livre', pautaId:null, resultado:null, inicioVotacao:null, pautaConcluida:false});
+});
+let encerrando = false;   // evita apurar duas vezes (automático + botão ao mesmo tempo)
+async function encerrar(m){
+  if(encerrando) return; encerrando = true;
+  try{
+    const a = E(); if(a.votacao !== 'aberta' || a.pautaId !== m.id) return;
+    let vs = votosDe(m.id);
+    try{
+      const todos = await Store.get('votos');
+      if(todos) vs = Object.keys(todos).map(id => Object.assign({id:id}, todos[id])).filter(v => v.pid === m.id);
+    }catch(e){}
+    const sim = vs.filter(v=>v.voto==='sim').length, nao = vs.filter(v=>v.voto==='nao').length, abs = vs.filter(v=>v.voto==='abs').length;
+    const naoVotou = Math.max(0, presentes().length - vs.length);
+    /* quem foi contado nesta apuração (um voto que chegue depois do encerramento não muda o resultado nem a ata) */
+    const contados = {}; vs.forEach(v => { contados[v.vid] = v.voto; });
+    const apuracao = {sim:sim, nao:nao, abs:abs, naoVotou:naoVotou, contados:contados};
+    if(sim === nao){
+      // EMPATE: o Presidente da Mesa desempata
+      await setEstado({votacao:'desempate', apuracao:apuracao});
+      toast(E().presidente ? 'Empate! Aguardando o voto de desempate do Presidente.' : 'Empate! Selecione o Presidente da Mesa para desempatar.');
+      return;
+    }
+    await finalizar(m, apuracao, null);
+  } finally { encerrando = false; }
+}
+/* votos que valeram na apuração (quando a apuração guardou a lista); senão, os votos gravados */
+function votosValidos(m, r){
+  if(r && r.contados) return Object.keys(r.contados).map(vid => ({id:m.id+'__'+vid, pid:m.id, vid:vid, voto:r.contados[vid]}));
+  return votosDe(m.id);
+}
+/* grava o resultado final (minerva = voto de desempate do Presidente, quando houve empate) */
+async function finalizar(m, ap, minerva){
+  const veredito = minerva ? (minerva === 'sim' ? 'APROVADO' : 'REPROVADO') : (ap.sim > ap.nao ? 'APROVADO' : 'REPROVADO');
+  const resultado = Object.assign({}, ap, {veredito:veredito, em:agora()});
+  if(ENSAIO) resultado.ensaio = true;
+  if(minerva){ resultado.desempate = minerva; resultado.presidente = E().presidente || ''; }
+  await setEstado({votacao:'encerrada', resultado:resultado, apuracao:null});
+  write('pauta/'+m.id, Object.assign(stripId(m), {status:'votado', resultado:resultado}));
+  toast(`Resultado: ${veredito}${minerva ? ' (desempate do Presidente)' : ''}`);
+}
+/* voto de desempate: vale só uma vez por matéria */
+let desempatando = false;
+async function desempatar(voto){
+  if(desempatando) return;
+  /* no tablet, o desempate precisa de internet (evita o tablet e a Mesa registrarem dois desempates diferentes) */
+  if(EH_TABLET && Store.db && !ONLINE) return toast('Sem internet neste tablet. O desempate pode ser registrado pela Mesa, no painel do Operador.');
+  desempatando = true;
+  try{
+    const m = pautaAtual();
+    let atual = null;
+    try{ atual = await Store.get('sessao/atual'); }catch(e){ atual = S.estado; }
+    if(!m || !atual || atual.votacao !== 'desempate' || atual.pautaId !== m.id) return toast('Não há desempate pendente.');
+    const ok = await Store.setIfAbsent('desempate/' + m.id, {voto:voto, presidente:atual.presidente || '', ts:agora()});
+    if(!ok) return toast('O desempate já foi registrado.');
+    /* som do desempate na Smart TV (js/bip-tv.js), igual ao voto: Aprovar = urna, Reprovar = 'reprova', Abster = bip */
+    if(ok !== 'pendente') Store.set('som', {tipo: voto==='sim' ? 'urna' : voto==='nao' ? 'reprova' : 'bip', em:agora(), n:Math.floor(Math.random()*1e9)}).catch(()=>{});
+    await finalizar(m, atual.apuracao || E().apuracao || {sim:0, nao:0, abs:0, naoVotou:0}, voto);
+  }catch(e){ toast('Não foi possível registrar o desempate. Tente de novo.'); }
+  finally{ desempatando = false; }
+}
+const porId = list => { const o = {}; list.forEach(x => { o[x.id] = x; }); return o; };
+const stripId = o => { const r = Object.assign({}, o); delete r.id; return r; };
+$('#pautaCount').addEventListener('click', ev => {
+  if(ev.target.closest('#btnArq')){ VER_ARQ = !VER_ARQ; renderOperador(); }
+  if(ev.target.closest('#btnApagarTodas')){ const arq = S.pauta.filter(p => p.arquivado); if(arq.length) apagarArquivada(arq); }
+});
+$('#pautaList').addEventListener('click', ev => {
+  const s = ev.target.closest('[data-sel]'), d = ev.target.closest('[data-del]'), rs = ev.target.closest('[data-rest]');
+  const ap = ev.target.closest('[data-apagar]');
+  if(ap){ const p = S.pauta.find(x=>x.id===ap.dataset.apagar); if(p) apagarArquivada(p); return; }
+  if(rs){ const p = S.pauta.find(x=>x.id===rs.dataset.rest); if(p){ write('pauta/'+p.id, Object.assign(stripId(p), {arquivado:false})); toast('Matéria restaurada na pauta.'); } return; }
+  if(d){ const p = S.pauta.find(x=>x.id===d.dataset.del); if(p && p.status==='votado'){
+    confirmBox({titulo:'Arquivar matéria votada?', texto:`${p.tipo} Nº ${p.numero} sai da lista da pauta. O resultado continua guardado e no Relatório para a ata; dá para restaurar em "Arquivadas".`, ok:'Arquivar', onOk:() => { write('pauta/'+p.id, Object.assign(stripId(p), {arquivado:true})); if(E().pautaId===p.id) setEstado({pautaId:null}); toast('Matéria arquivada.'); }});
+    return; } }
+  if(s){ if(emCurso(E())) return; setEstado({pautaId:s.dataset.sel, votacao:'livre', resultado:null, pautaConcluida:false}); }
+  if(d){ const p = S.pauta.find(x=>x.id===d.dataset.del); if(!p) return;
+    confirmBox({titulo:'Remover da pauta?', texto:`${p.tipo} Nº ${p.numero}`, ok:'Remover', cls:'stop', onOk:() => { Store.del('pauta/'+p.id); if(E().pautaId===p.id) setEstado({pautaId:null}); }}); }
+});
+$('#addForm').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const ementa = $('#fEmenta').value.trim(), numero = $('#fNum').value.trim();
+  if(!ementa || !numero) return toast('Preencha número e ementa.');
+  const ordem = Math.max(0, ...S.pauta.map(p=>p.ordem||0)) + 1;
+  const id = 'm' + Date.now().toString(36);
+  write('pauta/'+id, {ordem, tipo:$('#fTipo').value, numero, ementa, autor:$('#fAutor').value.trim(), status:'pendente', resultado:null});
+  $('#fEmenta').value=''; $('#fNum').value=''; $('#fAutor').value='';
+  toast('Matéria adicionada à pauta.');
+});
+
+/* ===================== relatório da sessão (para a ata) ===================== */
+const pad2 = n => (n < 10 ? '0' : '') + n;
+const diaDe = t => { const d = new Date(t); return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); };
+const dataBR = iso => { const p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; };
+const horaBR = t => { const d = new Date(t); return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); };
+(function(){ const el = $('#relData'); if(el) el.value = diaDe(Date.now()); })();
+function gerarRelatorio(){
+  const dia = $('#relData').value || diaDe(agora());
+  const materias = pautaOrdenada().filter(p => p.status === 'votado' && p.resultado && p.resultado.em && diaDe(p.resultado.em) === dia)
+    .sort((a, b) => a.resultado.em - b.resultado.em);
+  if(!materias.length) return toast('Nenhuma matéria votada em ' + dataBR(dia) + '.');
+  const logo = new URL('img/brasao.png', location.href).href;
+  const NOME_VOTO = {sim:'SIM', nao:'NÃO', abs:'ABSTENÇÃO'};
+  const blocos = materias.map((m, i) => {
+    const r = m.resultado, vs = votosValidos(m, r);
+    const linhas = VEREADORES.map(v => {
+      const x = vs.find(y => y.vid === v.id);
+      const voto = x ? NOME_VOTO[x.voto] : 'NÃO VOTOU';
+      const cls = x ? x.voto : 'nv';
+      return `<tr><td>${v.ap}</td><td>${esc(v.nome)}${r.presidente === v.id || (!r.presidente && E().presidente === v.id) ? ' <em>(Presidente)</em>' : ''}</td><td class="v ${cls}">${voto}</td></tr>`;
+    }).join('');
+    return `<section class="mat">
+      <h2>${i+1}. ${esc(m.tipo)} Nº ${esc(m.numero)}${r.ensaio ? ' <span class="ens">(ENSAIO — votação de teste)</span>' : ''}</h2>
+      <p class="ementa">${esc(m.ementa)}</p>
+      <p class="autor">Autor: ${esc(m.autor || '—')} · Votação encerrada às ${horaBR(r.em)}</p>
+      <div class="res ${r.veredito === 'APROVADO' ? 'ap' : 'rp'}"><b>${esc(r.veredito)}</b>
+        <span>SIM ${r.sim || 0} · NÃO ${r.nao || 0} · ABSTENÇÃO ${r.abs || 0} · NÃO VOTOU ${r.naoVotou || 0}</span></div>
+      ${r.desempate ? `<p class="desemp">Houve empate (${r.sim} × ${r.nao}). Desempate pelo voto do Presidente da Mesa${r.presidente ? ', ' + esc(vName(r.presidente)) : ''}: <b>${NOME_VOTO[r.desempate]}</b>.</p>` : ''}
+      <table><thead><tr><th>Aparelho</th><th>Vereador(a)</th><th>Voto</th></tr></thead><tbody>${linhas}</tbody></table>
+    </section>`;
+  }).join('');
+  const aprov = materias.filter(m => m.resultado.veredito === 'APROVADO').length;
+  const html = `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório de votação — ${dataBR(dia)}</title>
+<style>
+@page{size:A4;margin:16mm 14mm}
+*{box-sizing:border-box}
+body{font-family:"Segoe UI",Arial,sans-serif;color:#111;margin:0;padding:24px;font-size:12.5pt;line-height:1.4;background:#fff}
+header{display:flex;align-items:center;gap:16px;border-bottom:3px solid #1b2c57;padding-bottom:12px;margin-bottom:16px}
+header img{width:70px;height:70px;object-fit:contain}
+header h1{font-size:17pt;margin:0;color:#1b2c57}
+header p{margin:2px 0 0;color:#444}
+.resumo{background:#f3f5fa;border:1px solid #d4d9e4;border-radius:8px;padding:10px 14px;margin-bottom:18px}
+.mat{page-break-inside:avoid;break-inside:avoid;border:1px solid #d4d9e4;border-radius:8px;padding:14px 16px;margin-bottom:16px}
+.mat h2{font-size:13.5pt;margin:0 0 4px;color:#1b2c57}
+.ementa{margin:0 0 4px}
+.autor{margin:0 0 10px;color:#555;font-size:11pt}
+.res{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;border-radius:6px;padding:8px 12px;margin-bottom:8px}
+.res b{font-size:15pt;letter-spacing:.04em}
+.res.ap{background:#e2f4e9;color:#14683a}.res.rp{background:#fbe4e1;color:#9a2a1f}
+.ens{color:#9a2a1f;font-size:10.5pt}
+.desemp{margin:0 0 8px;color:#7a5a12;font-size:11pt}
+table{width:100%;border-collapse:collapse;font-size:11pt}
+th,td{border:1px solid #d4d9e4;padding:5px 8px;text-align:left}
+th{background:#1b2c57;color:#fff;font-weight:600}
+td:first-child,th:first-child{width:80px;text-align:center}
+td.v{font-weight:700}
+td.sim{color:#14683a}td.nao{color:#9a2a1f}td.abs{color:#8a5c00}td.nv{color:#777}
+em{color:#7a5a12;font-style:normal;font-size:10pt}
+.ass{margin-top:46px;display:flex;justify-content:space-around;gap:30px;page-break-inside:avoid}
+.ass div{flex:1;max-width:260px;border-top:1px solid #111;text-align:center;padding-top:6px;font-size:11pt}
+footer{margin-top:24px;color:#777;font-size:9.5pt;text-align:center}
+.barra{position:sticky;top:0;background:#1b2c57;color:#fff;padding:10px 14px;margin:-24px -24px 18px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.barra button{font:inherit;border:0;border-radius:6px;padding:8px 16px;background:#e6b955;color:#1d1405;font-weight:700;cursor:pointer}
+@media print{.barra{display:none}body{padding:0}}
+</style></head><body>
+<div class="barra"><span>Relatório pronto. Para salvar em PDF, escolha "Salvar como PDF" como impressora.</span><button onclick="window.print()">Imprimir / Salvar PDF</button></div>
+<header><img src="${logo}" alt=""><div><h1>Câmara Municipal de Itapitanga</h1><p>Relatório de votação plenária · Sessão de ${dataBR(dia)}</p></div></header>
+<div class="resumo"><b>${materias.length}</b> matéria(s) votada(s): <b>${aprov}</b> aprovada(s) e <b>${materias.length - aprov}</b> reprovada(s). Presidente da Mesa: <b>${esc(vName(E().presidente))}</b>.</div>
+${blocos}
+<div class="ass"><div>Presidente da Mesa</div><div>Secretário(a)</div></div>
+<footer>Gerado pelo Sistema (PLD) Plenário Legislativo Digital em ${dataBR(diaDe(Date.now()))} às ${horaBR(Date.now())}.</footer>
+</body></html>`;
+  const w = window.open('', '_blank');
+  if(!w) return toast('O navegador bloqueou a janela. Permita pop-ups para este site e tente de novo.');
+  w.document.open(); w.document.write(html); w.document.close();
+  setTimeout(() => { try{ w.focus(); w.print(); }catch(e){} }, 700);
+}
+$('#btnRelatorio').addEventListener('click', gerarRelatorio);
+
+/* ---------- vereador ---------- */
+let selVid = null;
+function renderNameGrid(){
+  const dono = donoDoTablet();
+  // tablet já tem dono: só aparece o nome dele
+  const lista = dono ? VEREADORES.filter(v => v.id === dono) : VEREADORES;
+  if(dono) selVid = dono;
+  $('#nameGrid').innerHTML = lista.map(v => {
+    const outro = vinculoOutro(v.id);
+    return `<button type="button" class="namebtn" data-vid="${v.id}" aria-pressed="${selVid===v.id}" ${outro?'disabled':''}><span class="av">${avInner(v)}</span><span><b>${esc(v.nome)}</b><small>${outro?'Em outro tablet':'Aparelho '+v.ap}</small></span></button>`;
+  }).join('');
+}
+$('#nameGrid').addEventListener('click', ev => { const b = ev.target.closest('[data-vid]'); if(!b || b.disabled) return; selVid = b.dataset.vid; renderNameGrid(); $('#verErr').textContent=''; });
+let entrando = false;
+$('#verLoginForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  if(entrando) return;
+  if(!selVid) return $('#verErr').textContent = 'Toque no seu nome primeiro.';
+  const dono = donoDoTablet();
+  if(dono && dono !== selVid) return $('#verErr').textContent = 'Este tablet é do vereador ' + vName(dono) + '.';
+  if(vinculoOutro(selVid)) return $('#verErr').textContent = 'Este nome está vinculado a outro tablet. Use o seu aparelho ou peça à Mesa para liberar.';
+  entrando = true;
+  try{
+    // vincula este tablet ao vereador (só se ainda não tiver vínculo)
+    if(!ENSAIO && !S.aparelhos[selVid]){
+      const ok = await Store.setIfAbsent('aparelhos/' + selVid, {dev:DEV, em:agora()});
+      if(!ok){
+        const cur = await Store.get('aparelhos/' + selVid);
+        if(!cur || cur.dev !== DEV) return $('#verErr').textContent = 'Este nome acabou de ser vinculado a outro tablet.';
+      }
+      S.aparelhos[selVid] = {dev:DEV, em:agora()};
+    }
+  }catch(e){ return $('#verErr').textContent = 'Sem conexão. Verifique a internet e tente de novo.'; }
+  finally{ entrando = false; }
+  ls.set('vp_vid', selVid); ls.set('vp_ult', selVid); $('#verErr').textContent='';
+  write('login/'+selVid, {logado:true, ts:agora()});
+  route();
+});
+let saidaVotoT = null;
+function sairVereador(){
+  clearTimeout(saidaVotoT); saidaVotoT = null;
+  const vid = ls.get('vp_vid'); tabletOffline(vid); if(vid) write('login/'+vid, {logado:false, ts:agora()});
+  ls.del('vp_vid'); selVid = null; route();
+}
+$('#verLogout').addEventListener('click', sairVereador);
+let voting = false;
+function renderVereador(){
+  const vid = ls.get('vp_vid'), v = VEREADORES.find(x=>x.id===vid);
+  if(!v){ ls.del('vp_vid'); return route(); }
+  if(!ENSAIO && S.apLoaded && (!S.aparelhos[vid] || S.aparelhos[vid].dev !== DEV)){ ls.del('vp_vid'); selVid = null; return route(); }
+  const e = E(), m = pautaAtual();
+  $('#verAv').innerHTML = avInner(v);
+  $('#verName').textContent = v.nome;
+  $('#verRole').textContent = e.presidente === v.id ? 'Presidente da Mesa' : `Vereador · Aparelho ${v.ap}`;
+  const pres = !!(S.presenca[vid] && S.presenca[vid].presente);
+  const meu = m ? S.votos.find(x => x.pid===m.id && x.vid===vid) : null;
+  const st = $('#verStatus'), body = $('#verBody');
+  let sCls = '', sTxt = '', html = '';
+  const matHtml = m ? `<div class="panel matcard"><span class="mtipo">${esc(m.tipo)} Nº ${esc(m.numero)}</span><h2>${esc(m.ementa)}</h2><p class="muted" style="margin:6px 0 0">Autor: ${esc(m.autor||'—')}</p></div>` : '';
+  const btns = dis => `<div class="votebtns">
+      <button class="vb sim" data-voto="sim" ${dis?'disabled':''}><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>APROVAR<small>Voto SIM</small></button>
+      <button class="vb nao" data-voto="nao" ${dis?'disabled':''}><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>REPROVAR<small>Voto NÃO</small></button>
+      <button class="vb abs" data-voto="abs" ${dis?'disabled':''}><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 12h12"/></svg></span>ABSTER<small>Abstenção</small></button></div>`;
+
+  const placarHtml = a => `<div class="row" style="justify-content:center"><span class="chip sim">SIM ${a.sim||0}</span><span class="chip nao">NÃO ${a.nao||0}</span><span class="chip abs">ABST. ${a.abs||0}</span></div>`;
+  if(!e.aberta){ sTxt = encerradaRecente(e) ? 'Sessão encerrada.' : 'Aguardando a Mesa abrir a sessão.'; html = btns(true); }
+  else if(e.votacao === 'desempate' && m){
+    const a = e.apuracao || {};
+    if(e.presidente === vid){
+      sCls = 'live'; sTxt = 'EMPATE. Como Presidente da Mesa, dê o voto de desempate.';
+      html = matHtml + `<div class="votebtns minerva">
+        <button class="vb sim" data-minerva="sim"><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>APROVAR<small>Desempate: SIM ${a.sim||0} × NÃO ${a.nao||0}</small></button>
+        <button class="vb nao" data-minerva="nao"><span class="vi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>REPROVAR<small>Desempate: SIM ${a.sim||0} × NÃO ${a.nao||0}</small></button></div>`;
+    } else {
+      sCls = 'lock'; sTxt = 'Empate. Aguardando o voto de desempate do Presidente.';
+      html = matHtml + `<div class="panel locked"><span class="eyebrow">Apuração</span><span class="big" style="color:var(--brass)">EMPATE</span>${placarHtml(a)}
+        <span class="muted">O Presidente da Mesa vai desempatar.${meu ? ' Seu voto: ' + VOTO_LABEL[meu.voto] : ''}</span></div>`;
+    }
+  }
+  else if(!pres){ sTxt = e.chamada ? 'Você não consta como presente. Fale com a Mesa.' : 'Sessão aberta. Aguardando a chamada.'; html = btns(true); }
+  else if(e.votacao === 'livre' || !m){ sTxt = 'Presença confirmada. Aguardando a liberação da pauta.'; html = matHtml + btns(true); }
+  else if(e.votacao === 'aberta' && !meu){ sCls='live'; sTxt = 'Votação aberta. Escolha seu voto.'; html = matHtml + btns(false); }
+  else if(e.votacao === 'aberta' && meu){
+    sCls='lock'; sTxt = 'Voto registrado. Tela bloqueada até o encerramento.';
+    html = matHtml + `<div class="panel locked"><div class="lockico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <span class="eyebrow">Seu voto</span><span class="big" style="color:var(--${meu.voto})">${VOTO_LABEL[meu.voto]}</span><span class="muted">Não é possível votar de novo nesta matéria.</span></div>`;
+  }
+  else if(e.votacao === 'encerrada'){
+    const r = e.resultado || {};
+    sCls='lock'; sTxt = e.pautaConcluida ? 'Votação concluída. Este tablet vai voltar ao início.' : 'Votação encerrada. A próxima matéria abre em instantes.';
+    html = matHtml + `<div class="panel locked"><span class="eyebrow">Resultado</span><span class="big res ${r.veredito==='APROVADO'?'ap':'rp'}">${esc(r.veredito||'')}</span>
+      <div class="row" style="justify-content:center"><span class="chip sim">SIM ${r.sim||0}</span><span class="chip nao">NÃO ${r.nao||0}</span><span class="chip abs">ABST. ${r.abs||0}</span></div>
+      ${r.desempate ? '<span style="color:var(--brass);font-weight:700">Empate decidido pelo voto do Presidente</span>' : ''}
+      ${meu?`<span class="muted">Seu voto: ${VOTO_LABEL[meu.voto]}</span>`:'<span class="muted">Você não votou nesta matéria.</span>'}</div>`;
+  }
+  st.className = 'status ' + sCls; st.textContent = sTxt;
+  body.innerHTML = html;
+}
+$('#verBody').addEventListener('click', ev => {
+  const mb = ev.target.closest('[data-minerva]');
+  if(mb){
+    const voto = mb.dataset.minerva;
+    bipAprovar();   /* bip nos botões de desempate do Presidente (APROVAR/REPROVAR); o "Confirmar desempate" continua em silêncio */
+    if(E().presidente !== ls.get('vp_vid')) return toast('Só o Presidente da Mesa pode desempatar.');
+    return confirmBox({titulo:'Voto de desempate', big:VOTO_LABEL[voto], bigColor:`var(--${voto})`,
+      texto:'Como Presidente da Mesa, seu voto decide esta matéria. Depois de confirmar, não pode ser alterado.', ok:'Confirmar desempate', cls: voto==='sim'?'go':'stop',
+      onOk: () => desempatar(voto)});
+  }
+  const b = ev.target.closest('[data-voto]'); if(!b || b.disabled) return;
+  const voto = b.dataset.voto;
+  bipAprovar();   /* bip nos botões APROVAR, REPROVAR e ABSTER; o "Confirmar voto" continua em silêncio */
+  confirmBox({
+    titulo:'Confirmar voto', big:VOTO_LABEL[voto], bigColor:`var(--${voto})`,
+    texto:'Depois de confirmar, o voto aparece no telão e não pode ser alterado.', ok:'Confirmar voto', cls: voto==='sim'?'go':voto==='nao'?'stop':'brass',
+    onOk: () => votar(voto)
+  });
+});
+/* bip curto no tablet ao tocar em APROVAR (mesmo bip da Presença: 1046 Hz, 0,12 s) */
+var _bipCtx = null;
+function bipAprovar(){
+  /* tablet em silêncio (pedido do usuário): o toque no botão manda o bip para a Smart TV (js/bip-tv.js), nunca toca aqui */
+  try{ Store.set('som', {tipo:'bip', em:agora(), n:Math.floor(Math.random()*1e9)}).catch(()=>{}); }catch(e){}
+  return;
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    if(!_bipCtx) _bipCtx = new AC();
+    if(_bipCtx.state === 'suspended') _bipCtx.resume();
+    var t = _bipCtx.currentTime, o = _bipCtx.createOscillator(), g = _bipCtx.createGain();
+    o.type = 'sine'; o.frequency.value = 1046;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.35, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+    o.connect(g); g.connect(_bipCtx.destination);
+    o.start(t); o.stop(t + 0.13);
+  }catch(err){}
+}
+async function votar(voto){
+  if(voting) return; voting = true;
+  try{
+    const vid = ls.get('vp_vid'), e = E(), m = pautaAtual();
+    if(!vid || !m || e.votacao !== 'aberta') return toast('A votação não está aberta.');
+    if(!(S.presenca[vid] && S.presenca[vid].presente)) return toast('Você não consta como presente.');
+    if(!ENSAIO && (!S.aparelhos[vid] || S.aparelhos[vid].dev !== DEV)) return toast('Este tablet não é o aparelho deste vereador.');
+    if(S.votos.some(x => x.pid === m.id && x.vid === vid)) return toast('Seu voto já foi registrado.');
+    if(ONLINE){
+      try{
+        const atual = await Store.get('sessao/atual');
+        if(!atual || atual.votacao !== 'aberta' || atual.pautaId !== m.id) return toast('A votação desta matéria já foi encerrada.');
+      }catch(e){ /* sem resposta do servidor: segue com o estado que está no tablet */ }
+    }
+    const path = 'votos/' + m.id + '__' + vid;
+    const doc = {pid:m.id, vid, voto, ts:agora()};
+    let gravou = false;
+    try{ gravou = await Store.setIfAbsent(path, doc); }catch(e){ toast('Não foi possível gravar o voto. Tente de novo.'); return; }
+    if(!gravou){ toast('Seu voto já foi registrado.'); return; }
+    if(gravou === 'pendente'){ const p = lerPend(); p[path] = doc; gravarPend(p); }
+    S.votos = [...S.votos.filter(x=>x.id!==m.id+'__'+vid), Object.assign({id:m.id+'__'+vid}, doc)]; render();
+    /* som do voto só na Smart TV (js/bip-tv.js), o tablet fica em silêncio: Aprovar = urna, Reprovar = 'reprova' (tu-tum), Abster = bip */
+    const som = voto==='sim' ? 'urna' : voto==='nao' ? 'reprova' : 'bip';
+    if(gravou !== 'pendente') Store.set('som', {tipo:som, em:agora(), n:Math.floor(Math.random()*1e9)}).catch(()=>{});
+    toast(gravou === 'pendente' ? 'Voto guardado no tablet. Será enviado assim que a internet voltar.' : 'Voto registrado.');
+    /* depois de confirmar o voto, mostra "Voto registrado" por 3 s e volta sozinho para a tela de vereadores (sem apertar Sair) */
+    clearTimeout(saidaVotoT);
+    saidaVotoT = setTimeout(() => { saidaVotoT = null;
+      const e2 = E();
+      if(e2.votacao === 'desempate' && e2.presidente === vid){ const m2 = pautaAtual(); if(m2) autoPresFeito = m2.id + '|' + (e2.inicioVotacao || ''); return; }   /* empate: o Presidente fica na tela para desempatar */
+      if(ls.get('vp_vid') === vid) sairVereador(); }, 3000);
+  } finally { voting = false; }
+}
+
+/* ---------- telão ---------- */
+function renderTelao(){
+  const e = E(), m = pautaAtual(), stEl = $('#tvState');
+  stEl.className = 'tvstate' + (e.votacao==='aberta' ? ' live' : e.votacao==='desempate' ? ' emp' : '');
+  stEl.textContent = !e.aberta ? (encerradaRecente(e) ? 'Sessão encerrada' : 'Sessão fechada') : e.votacao==='aberta' ? 'Votação aberta' : e.votacao==='desempate' ? 'Empate' : e.votacao==='encerrada' ? 'Votação encerrada' : !e.chamada ? 'Sessão aberta' : 'Aguardando pauta';
+  const pres = presentes().length;
+  $('#tvFootL').textContent = (ENSAIO ? 'ENSAIO · ' : '') + (e.aberta ? `Quórum: ${pres} presentes de 9 · mínimo ${QUORUM}${e.presidente?' · Presidente: '+vName(e.presidente):''}` : 'Câmara Municipal de Itapitanga — Bahia');
+  const body = $('#tvBody');
+  if(!e.aberta){
+    /* Sessão encerrada: traço azul animado sob o título. Só redesenha se mudar (não reinicia a animação a cada atualização) */
+    const spKey = encerradaRecente(e) ? 'enc' + (e.encerradaEm || '') : 'agu';
+    const spAtual = body.firstElementChild;
+    if(spAtual && spAtual.getAttribute('data-sp') === spKey) return;
+    body.innerHTML = `<div class="splash" data-sp="agu"><img class="seal" src="img/brasao.png" alt="Câmara Municipal de Itapitanga"><h2>Câmara Municipal de Itapitanga</h2><p>Aguardando a votação</p></div>`;
+    if(encerradaRecente(e)) body.innerHTML = `<div class="splash" data-sp="${spKey}"><img class="seal" src="img/brasao.png" alt="Câmara Municipal de Itapitanga"><h2 class="sessenc">SESSÃO ENCERRADA</h2><i class="traco traco-tv traco-enc" aria-hidden="true"></i><p>Câmara Municipal de Itapitanga</p></div>`;
+    return;
+  }
+  /* Pauta concluída com 2 ou mais matérias: resumo final com o nome e o resultado de cada uma */
+  if(e.pautaConcluida){
+    const desde = e.abertaEm || 0;
+    const votadas = pautaOrdenada().filter(p => p.status === 'votado' && p.resultado && (p.resultado.em || 0) >= desde)
+      .sort((a, b) => a.resultado.em - b.resultado.em);
+    if(votadas.length >= 2){
+      stEl.className = 'tvstate'; stEl.textContent = 'Pauta concluída';
+      const aprov = votadas.filter(p => p.resultado.veredito === 'APROVADO').length;
+      const tam = votadas.length > 10 ? ' compact cols' : votadas.length > 5 ? ' compact' : '';
+      body.innerHTML = `<div class="tvsum${tam}">
+        <div class="tvsum-top"><span class="mtipo">Resultado final da pauta</span><h2>${votadas.length} matérias votadas · ${aprov} aprovada${aprov===1?'':'s'} · ${votadas.length-aprov} reprovada${votadas.length-aprov===1?'':'s'}</h2></div>
+        <div class="tvsum-lista">${votadas.map(p => { const r = p.resultado, ap = r.veredito === 'APROVADO';
+          return `<div class="tvsum-item ${ap?'ap':'rp'}"><div class="tvsum-nome"><b>${esc(p.tipo)} Nº ${esc(p.numero)}</b><span>${esc(p.ementa)}</span></div>
+            <div class="tvsum-placar">SIM ${r.sim||0} · NÃO ${r.nao||0} · ABST. ${r.abs||0}${r.desempate?'<em>Desempate do Presidente</em>':''}</div>
+            <div class="tvsum-res">${esc(r.veredito)}</div></div>`; }).join('')}</div></div>`;
+      return;
+    }
+  }
+  const vs = !m ? [] : e.votacao === 'encerrada' ? votosValidos(m, e.resultado) : e.votacao === 'desempate' ? votosValidos(m, e.apuracao) : votosDe(m.id);
+  const enc = e.votacao === 'encerrada' || e.votacao === 'desempate';
+  const grid = VEREADORES.map(v => {
+    const p = estaPresente(v.id);
+    const vt = vs.find(x=>x.vid===v.id);
+    let st = 'AUSENTE', cls = '';
+    if(p){
+      if(e.votacao==='aberta'){ st = vt ? VOTO_TV[vt.voto] : 'AGUARDANDO'; cls = vt ? vt.voto : 'wait'; }
+      else if(enc){ st = vt ? VOTO_CURTO[vt.voto] : 'NÃO VOTOU'; cls = vt ? vt.voto : ''; }
+      else { st = 'PRESENTE'; cls = 'wait'; }
+    }
+    const novo = vt && !TV_VISTOS.has(vt.id); if(vt) TV_VISTOS.add(vt.id);
+    return `<div class="tvv ${!p?'aus':''} ${vt?'voted v-'+vt.voto:''} ${novo&&TV_PRONTO?'flash':''}"><span class="av tvfoto">${avInner(v)}</span><span class="tvnm">${e.presidente===v.id?'<span class="pres">Presidente</span>':''}<span class="nm">${esc(v.nome)}</span></span><span class="st ${cls}">${st}</span></div>`;
+  }).join('');
+  const mat = m ? `<span class="mtipo">${esc(m.tipo)} Nº ${esc(m.numero)}</span><h2>${esc(m.ementa)}</h2><span class="autor">Autor: ${esc(m.autor||'—')}</span>`
+                : `<span class="mtipo">ORDEM DO DIA</span><h2>${e.chamada ? 'Aguardando a próxima matéria' : 'Chamada em andamento'}</h2>`;
+  const q = e.votacao==='aberta'
+    ? `<div><small style="color:var(--sim)">Sim</small><b style="color:var(--sim)">${vs.filter(x=>x.voto==='sim').length}</b></div><div><small style="color:var(--nao)">Não</small><b style="color:var(--nao)">${vs.filter(x=>x.voto==='nao').length}</b></div><div><small style="color:var(--abs)">Abstenção</small><b style="color:var(--abs)">${vs.filter(x=>x.voto==='abs').length}</b></div><div><small>Votaram</small><b>${vs.length}/${pres}</b></div><div><small>Tempo</small><b data-elapsed>00:00</b></div>`
+    : `<div><small>Presentes</small><b>${pres}/9</b></div><div><small>Quórum mínimo</small><b>${QUORUM}</b></div><div><small>Situação</small><b style="color:${pres>=QUORUM?'var(--sim)':'var(--nao)'};font-family:var(--f-display)">${e.chamada?(pres>=QUORUM?'COM QUÓRUM':'SEM QUÓRUM'):'CHAMADA'}</b></div>`;
+  let html = `<div class="tvmain"><div class="tvmat">${mat}<div class="tvq">${q}</div></div><div class="tvgrid">${grid}</div></div>`;
+  if(e.votacao === 'desempate'){
+    const a = e.apuracao || {};
+    html = `<div class="tvres emp"><div><span class="mtipo">${m?esc(m.tipo)+' Nº '+esc(m.numero):''}</span><div class="verdict">EMPATE</div><div class="tvsub">Aguardando o voto de desempate do Presidente${e.presidente ? ' ' + esc(vName(e.presidente)) : ''}</div></div>
+      <div class="placar"><div class="s"><small>Sim</small><b>${a.sim||0}</b></div><div class="n"><small>Não</small><b>${a.nao||0}</b></div><div class="a"><small>Abstenção</small><b>${a.abs||0}</b></div></div></div>` + html;
+  }
+  if(e.votacao === 'encerrada' && e.resultado){
+    const r = e.resultado;
+    html = `<div class="tvres ${r.veredito==='APROVADO'?'ap':'rp'}"><div><span class="mtipo">${m?esc(m.tipo)+' Nº '+esc(m.numero):''}</span><div class="verdict">${esc(r.veredito)}</div>${r.desempate ? `<div class="tvsub">Empate decidido pelo voto do Presidente${r.presidente ? ' ' + esc(vName(r.presidente)) : ''}</div>` : ''}</div>
+      <div class="placar"><div class="s"><small>Sim</small><b>${r.sim}</b></div><div class="n"><small>Não</small><b>${r.nao}</b></div><div class="a"><small>Abstenção</small><b>${r.abs}</b></div></div></div>` + html;
+  }
+  body.innerHTML = html;
+  TV_PRONTO = true;
+  tickElapsed();
+}
+const VOTO_TV = {sim:'SIM', nao:'NÃO', abs:'ABSTENÇÃO'};
+const TV_VISTOS = new Set(); let TV_PRONTO = false;
+function tickElapsed(){
+  const e = E();
+  const t = e.votacao==='aberta' && e.inicioVotacao ? Math.max(0, Math.floor((agora()-e.inicioVotacao)/1000)) : 0;
+  const d2 = n => (n < 10 ? '0' : '') + n, s = d2(Math.floor(t/60)) + ':' + d2(t%60);
+  document.querySelectorAll('[data-elapsed]').forEach(el => el.textContent = s);
+}
+setInterval(() => {
+  const d = new Date();
+  $('#tvClock').textContent = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  tickElapsed();
+}, 1000);
+$('#tvFull').addEventListener('click', () => {
+  // dentro da Smart TV (quadro do dashboard): a tela cheia é da TV inteira
+  try{ if(window.self !== window.top && window.top.__tvTelaCheia){ window.top.__tvTelaCheia(); return; } }catch(e){}
+  const el = document.documentElement;
+  try{ (document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen()).catch(()=>{}); }catch(e){}
+});
+/* Notebook (fora do quadro da TV, sem navegador de TV, com mouse/touchpad): mostra o botão Sair no telão */
+(function(){
+  let quadro = false; try{ quadro = window.self !== window.top; }catch(e){ quadro = true; }
+  const tvUA = /SmartTV|SMART-TV|Tizen|Web0S|webOS|NetCast|HbbTV|BRAVIA|SonyDTV|AFT[A-Z]|GoogleTV|Google TV|Android ?TV|CrKey|Roku|VIDAA|NETTV|Viera|AQUOS|Opera TV|LG Browser|Large Screen|PhilipsTV|Hisense.*TV|TV Safari/i.test(navigator.userAgent);
+  let fino = false; try{ fino = matchMedia('(any-pointer: fine)').matches; }catch(e){}
+  if(!quadro && !tvUA && !EH_TABLET && fino) document.documentElement.classList.add('nb');
+  $('#tvSair').addEventListener('click', () => {
+    try{ if(document.fullscreenElement) document.exitFullscreen(); else if(document.webkitFullscreenElement) document.webkitExitFullscreen(); }catch(e){}
+    location.href = 'dashboard.html';   /* volta para a página do Legislar */
+  });
+})();
+/* Smart TV: qualquer tecla do controle remoto ou clique no telão coloca a TV em tela cheia */
+(function(){
+  let emQuadro = false; try{ emQuadro = window.self !== window.top; }catch(e){ emQuadro = true; }
+  function tvCheia(ev){
+    if(ev && ev.type === 'keydown' && (ev.key === 'Escape' || ev.keyCode === 27)) return;
+    if(ev && ev.target && ev.target.closest && ev.target.closest('#tvFull, #tvSair')) return;
+    if(emQuadro){ try{ if(window.top.__tvTelaCheia) window.top.__tvTelaCheia(); }catch(e){} return; }
+    if(current !== 'v-telao' || document.fullscreenElement || document.webkitFullscreenElement) return;
+    const el = document.documentElement, f = el.requestFullscreen || el.webkitRequestFullscreen;
+    try{ const r = f && f.call(el); if(r && r.catch) r.catch(()=>{}); }catch(e){}
+  }
+  document.addEventListener('keydown', tvCheia, true);
+  document.addEventListener('click', ev => { if(emQuadro || current === 'v-telao') tvCheia(ev); }, true);
+})();
+
+/* ---------- utilidades de interface ---------- */
+let toastT;
+function toast(msg){
+  let t = $('.toast'); if(!t){ t = document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200);
+}
+/* Apagar matéria ARQUIVADA definitivamente (pedido do usuário, 09/11/2026): só pelo Operador, com senha própria.
+   A senha não fica no código: só o SHA-256('vp-apagar:' + senha). Apaga a matéria, os votos dela e o desempate. */
+const APAGAR_HASH = 'b5068f80a924e847d2d0dc22ac24ed098251ec011331a869e7e67722e91775f4';
+function apagarArquivada(alvo){
+  const lista = Array.isArray(alvo) ? alvo : [alvo], p = lista[0], varias = lista.length > 1;
+  const root = $('#modalRoot');
+  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-label="Apagar definitivamente"><form class="box" autocomplete="off">
+    <span class="eyebrow" style="color:var(--nao)">Apagar definitivamente</span>
+    <p style="margin:0">${varias ? `<b>Todas as ${lista.length} matérias arquivadas</b>` : `<b>${esc(p.tipo)} Nº ${esc(p.numero)}</b> — ${esc(p.ementa)}`}</p>
+    <p style="margin:0" class="muted">${varias ? 'As matérias, os votos delas e os resultados serão apagados' : 'A matéria, os votos dela e o resultado serão apagados'} e <b>sairão do Relatório para a ata</b>. Não dá para desfazer.</p>
+    <div class="field"><label for="apSenha">Senha para apagar</label><input id="apSenha" type="password" autocomplete="off"></div>
+    <small id="apErr" style="color:var(--nao);min-height:1.2em"></small>
+    <div class="row"><button type="button" class="btn" data-x="no">Voltar</button><button type="submit" class="btn stop">Apagar</button></div></form></div>`;
+  const close = () => root.innerHTML = '';
+  const inp = root.querySelector('#apSenha'); setTimeout(() => inp.focus(), 50);
+  root.querySelector('[data-x="no"]').onclick = close;
+  root.querySelector('.modal').onclick = ev => { if(ev.target.classList.contains('modal')) close(); };
+  root.querySelector('form').onsubmit = async ev => {
+    ev.preventDefault();
+    let ok = false; try{ ok = (await sha256hex('vp-apagar:' + inp.value)) === APAGAR_HASH; }catch(e){}
+    if(!ok){ root.querySelector('#apErr').textContent = inp.value ? 'Senha incorreta.' : 'Digite a senha.'; inp.select(); return; }
+    close();
+    try{
+      const ops = [];
+      lista.forEach(m => {
+        ops.push(Store.del('pauta/' + m.id), Store.del('desempate/' + m.id));
+        votosDe(m.id).forEach(v => ops.push(Store.del('votos/' + (v.id || (m.id + '__' + v.vid)))));
+      });
+      await Promise.all(ops);
+      if(lista.some(m => E().pautaId === m.id)) setEstado({pautaId:null});
+      if(varias) VER_ARQ = false;
+      toast(varias ? `${lista.length} matérias apagadas definitivamente.` : 'Matéria apagada definitivamente.');
+    }catch(e){ toast('Não foi possível apagar. Verifique a internet.'); }
+  };
+}
+function confirmBox({titulo, texto, big, bigColor, ok, cls, onOk}){
+  const root = $('#modalRoot');
+  root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-label="${esc(titulo)}"><div class="box">
+    <span class="eyebrow">${esc(titulo)}</span>${big?`<span class="big" style="color:${bigColor}">${esc(big)}</span>`:''}
+    <p style="margin:0">${esc(texto||'')}</p>
+    <div class="row"><button class="btn" data-x="no">Voltar</button><button class="btn ${cls||'primary'}" data-x="ok">${esc(ok||'Confirmar')}</button></div></div></div>`;
+  const close = () => root.innerHTML = '';
+  root.querySelector('[data-x="no"]').onclick = close;
+  root.querySelector('.modal').onclick = ev => { if(ev.target.classList.contains('modal')) close(); };
+  root.querySelector('[data-x="ok"]').onclick = () => { close(); onOk && onOk(); };
+  root.querySelector('[data-x="ok"]').focus();
+}
+
+/* ===================== mensagens e arquivos para todas as telas =====================
+   Usa o mesmo canal da Mesa (legislar/presenca): o dashboard e a Presença Plenária
+   de todos os computadores e tablets já recebem por ali. Marcadas com origem 'votacao',
+   NÃO aparecem na Smart TV (lá só a votação e o resultado). */
+const Mensagens = (() => {
+  const PARTE = 1000000, LIMITE = 10 * 1024 * 1024, VISTO = 'plenario.msgVisto';
+  let refMsgs = null, refArq = null, msgs = [], porId = {}, conhecidas = null, arqSel = null;
+  let emQuadro = false; try{ emQuadro = window.self !== window.top; }catch(e){ emQuadro = true; }
+  const visto = v => { if(v === undefined) return +ls.get(VISTO) || 0; ls.set(VISTO, String(v)); };
+  const pad = n => (n < 10 ? '0' : '') + n;
+  const quando = t => { const d = new Date(t); return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' às '+pad(d.getHours())+':'+pad(d.getMinutes()); };
+  const tamanho = b => { b = +b || 0; return b >= 1048576 ? (b/1048576).toFixed(1).replace('.', ',')+' MB' : Math.max(1, Math.round(b/1024))+' KB'; };
+  const item = (m, apagar) => `<div class="msgitem">${m.texto ? `<p>${esc(m.texto)}</p>` : ''}${m.arquivo ? `<div class="msgarq"><span><b>${esc(m.arquivo.nome)}</b> <small>${tamanho(m.arquivo.tamanho)}</small></span><button class="btn" type="button" data-baixar="${esc(m.id)}" aria-label="Ver documento"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>Ver</button></div>` : ''}<div class="row" style="justify-content:space-between"><small>${esc(m.de || 'Mesa')} · ${quando(m.criadoEm)}</small>${apagar ? `<button class="linkbtn" type="button" data-apagar-msg="${esc(m.id)}">Apagar</button>` : ''}</div></div>`;
+
+  function lista(){ const el = $('#msgLista'); if(el) el.innerHTML = msgs.length ? msgs.slice(0, 10).map(m => item(m, true)).join('') : '<p class="muted" style="margin:0">Nenhuma mensagem enviada.</p>'; }
+  function aviso(novas){
+    // na Smart TV (dentro do dashboard) e no telão, só a votação aparece
+    if(emQuadro || current === 'v-telao' || !novas.length) return;
+    const root = $('#msgRoot');
+    root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-label="Mensagem da Mesa"><div class="box">
+      <span class="eyebrow">${novas.length > 1 ? novas.length + ' novas mensagens da Mesa' : 'Nova mensagem da Mesa'}</span>
+      <div class="msglist">${novas.map(m => item(m, false)).join('')}</div>
+      <div class="row"><button class="btn primary" data-x="ok">Fechar</button></div></div></div>`;
+    const close = () => root.innerHTML = '';
+    root.querySelector('[data-x="ok"]').onclick = close;
+    root.querySelector('.modal').onclick = ev => { if(ev.target.classList.contains('modal')) close(); };
+    let maior = 0; novas.forEach(m => { if(m.criadoEm > maior) maior = m.criadoEm; });
+    if(maior > visto()) visto(maior);
+  }
+  function baixar(id, b){
+    const m = porId[id]; if(!m || !m.arquivo || !refArq) return;
+    b.disabled = true; toast('Abrindo ' + m.arquivo.nome + '…');
+    comPrazo(refArq.child(id).once('value'), ONLINE ? 30000 : 4000, SEM_REDE()).then(s => {
+      const v = s.val() || {}; let d = '';
+      for(let i = 0; i < (m.arquivo.partes || 0); i++) d += (v[i] || v[String(i)] || '');
+      if(!d) throw new Error('vazio');
+      VerDoc.abrir(d, m.arquivo.nome, m.arquivo.tipo);   // abre para leitura, sem baixar
+    }).catch(() => toast(ONLINE ? 'Não foi possível abrir o arquivo.' : 'Sem internet: o arquivo abre quando a conexão voltar.')).then(() => { b.disabled = false; });
+  }
+  function limparArq(){ arqSel = null; $('#msgArqNome').textContent = 'Nenhum arquivo (opcional). Até 10 MB.'; $('#msgArqTirar').hidden = true; }
+  const lerArquivo = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(new Error('leitura')); r.readAsDataURL(f); });
+
+  function init(){
+    if(!(window.firebase && firebase.apps.length)){ lista(); return; }
+    const rt = firebase.database();
+    refMsgs = rt.ref('legislar/itapitanga/presenca/mensagens'); refArq = rt.ref('legislar/itapitanga/presenca/arquivos');
+    refMsgs.orderByChild('criadoEm').limitToLast(30).on('value', s => {
+      const todas = [], novas = [];
+      s.forEach(c => { const v = c.val() || {}; v.id = c.key; if(v.criadoEm) todas.push(v); });
+      todas.sort((a, b) => b.criadoEm - a.criadoEm);
+      msgs = todas; porId = {}; todas.forEach(m => porId[m.id] = m);
+      if(conhecidas === null){
+        conhecidas = {}; const v0 = visto(), limite = Date.now() - 2*3600*1000;
+        todas.forEach(m => { conhecidas[m.id] = true; if(m.criadoEm > v0 && m.criadoEm > limite) novas.push(m); });
+      } else todas.forEach(m => { if(!conhecidas[m.id]){ conhecidas[m.id] = true; novas.push(m); } });
+      lista(); aviso(novas);
+    }, onDbError);
+  }
+
+  document.addEventListener('click', ev => {
+    const b = ev.target.closest && ev.target.closest('[data-baixar]'); if(b) return baixar(b.getAttribute('data-baixar'), b);
+    const a = ev.target.closest && ev.target.closest('[data-apagar-msg]'); if(!a || !refMsgs) return;
+    const id = a.getAttribute('data-apagar-msg');
+    confirmBox({titulo:'Apagar mensagem', texto:'Apagar esta mensagem de todas as telas?', ok:'Apagar', cls:'stop', onOk: () =>
+      comPrazo(Promise.all([refMsgs.child(id).remove(), refArq.child(id).remove()]), 3000, 'pendente').then(() => toast('Mensagem apagada.')).catch(() => toast('Não foi possível apagar. Verifique a internet.'))});
+  });
+  $('#msgArqBtn').addEventListener('click', () => $('#msgArquivo').click());
+  $('#msgArqTirar').addEventListener('click', limparArq);
+  $('#msgArquivo').addEventListener('change', function(){
+    const f = this.files && this.files[0]; this.value = ''; if(!f) return;
+    if(f.size > LIMITE) return toast('O arquivo tem mais de 10 MB. Escolha um menor.');
+    arqSel = f; $('#msgArqNome').textContent = f.name + ' · ' + tamanho(f.size); $('#msgArqTirar').hidden = false;
+  });
+  $('#msgForm').addEventListener('submit', ev => {
+    ev.preventDefault();
+    if(!refMsgs) return toast('Sem conexão com o Firebase.');
+    if(!ONLINE) return toast('Sem internet agora. A mensagem pode ser enviada quando a conexão voltar (a votação continua funcionando).');
+    const texto = $('#msgTexto').value.trim(), f = arqSel;
+    if(!texto && !f) return toast('Escreva uma mensagem ou anexe um arquivo.');
+    const id = refMsgs.push().key;
+    if(conhecidas) conhecidas[id] = true;   // não mostra o aviso na tela de quem enviou
+    $('#msgEnviar').disabled = true; $('#msgProg').textContent = f ? 'Enviando arquivo… 0%' : 'Enviando…';
+    const envio = f ? lerArquivo(f).then(dataUrl => {
+      const total = Math.ceil(dataUrl.length / PARTE); let feitas = 0; const partes = [];
+      for(let i = 0; i < total; i++) partes.push(refArq.child(id).child(String(i)).set(dataUrl.slice(i*PARTE, (i+1)*PARTE)).then(() => {
+        feitas++; $('#msgProg').textContent = 'Enviando arquivo… ' + Math.round(feitas/total*100) + '%'; }));
+      return Promise.all(partes).then(() => total);
+    }) : Promise.resolve(0);
+    envio.then(total => {
+      const dados = {texto, de:'Mesa · Votação Plenária', origem:'votacao', criadoEm: firebase.database.ServerValue.TIMESTAMP};
+      if(f) dados.arquivo = {nome:f.name, tipo:f.type || '', tamanho:f.size, partes:total};
+      return refMsgs.child(id).set(dados);
+    }).then(() => { toast('Enviado para todos os computadores e tablets.'); $('#msgTexto').value = ''; limparArq(); })
+      .catch(e => { refArq.child(id).remove(); toast('Não foi possível enviar (' + ((e && (e.code || e.message)) || 'erro') + '). Verifique a internet.'); })
+      .then(() => { $('#msgEnviar').disabled = false; $('#msgProg').textContent = ''; });
+  });
+  return {init};
+})();
+
+/* ===================== início ===================== */
+(async function start(){
+  route();
+  await Store.init();
+  if(Store.db) carregarCache();   /* sem internet: começa com o último estado conhecido deste aparelho */
+  CACHE_PRONTO = true;
+  render();
+  Store.watchDoc('sessao/atual', d => { S.estado = d; render(); if(EH_TABLET && !TELA_OK) voltarAoDashboard(); if(EH_TABLET && d && d.pautaConcluida) sairConcluido(); });
+  Store.watchCol('login', list => { S.login = porId(list); render(); });
+  Store.watchCol('presenca', list => { S.presenca = porId(list); render(); });
+  Store.watchCol('votos', list => { S.votos = list; render(); });
+  Store.watchCol('aparelhos', list => { S.aparelhos = porId(list); S.apLoaded = true; render(); });
+  Store.watchDoc('config/ensaio', v => { ENSAIO = !!(v && v.ligado); if(window.CapaTablet) CapaTablet.set(ENSAIO); render(); });
+  Store.watchCol('pauta', list => { S.pauta = list; render(); });
+  Mensagens.init();
+  if(Store.mode === 'local' && !ls.get('vp_seed')){
+    ls.set('vp_seed','1');
+    if(!Local.keys().some(k => k.startsWith('pauta/'))){
+      [['Projeto de Lei','021/2026','Dispõe sobre a criação do programa municipal de hortas comunitárias nas escolas de Itapitanga.','Exemplo'],
+       ['Requerimento','045/2026','Solicita ao Poder Executivo a recuperação da iluminação pública da Rua Principal.','Exemplo'],
+       ['Indicação','017/2026','Indica a instalação de redutores de velocidade em frente ao Posto de Saúde.','Exemplo']]
+      .forEach((x,i) => Local.set('pauta/ex'+(i+1), {ordem:i+1, tipo:x[0], numero:x[1], ementa:x[2], autor:x[3], status:'pendente', resultado:null}));
+    }
+  }
+})();
+</script>
+<script>__es5('app-votacao', '__ok_votacao')</script>
+<script src="js/fala-tablet.js?v=3"></script>
+</body>
+</html>
