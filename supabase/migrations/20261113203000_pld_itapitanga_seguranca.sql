@@ -1,0 +1,8 @@
+-- PLD Itapitanga — segurança do banco (JÁ APLICADO no projeto PLD_Itapitanga em 13/11/2026). Registro.
+-- 1) Só aceita caminhos "legislar/itapitanga/<sistema>/<item>..." (4 níveis ou mais): ninguém apaga o sistema inteiro de uma vez.
+-- 2) Limites: 1,6 MB por valor, 12 MB por gravação, 300 alterações por chamada; leitura só da pasta de Itapitanga.
+-- 3) Histórico de 30 dias (tabela pld_historico, invisível para o site) de tudo que foi alterado ou apagado.
+-- 4) pld_restaurar(pasta, momento): volta uma pasta como estava num horário. Só o administrador do banco executa.
+--    Exemplo: select public.pld_restaurar('legislar/itapitanga/votacao/pauta', '2026-11-13 14:00-03');
+-- (o SQL completo está no histórico de migrações do projeto no Supabase: pld_itapitanga_seguranca_e_historico,
+--  pld_itapitanga_valida_pontos, pld_itapitanga_restaurar_corrige)
